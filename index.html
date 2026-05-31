@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PurifiedPay — Secure Payments for Research Professionals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: #0A1628; background: #fff; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(10,22,40,0.97); backdrop-filter: blur(8px);
+    }
+    .nav-logo { color: #fff; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.5px; }
+    .nav-logo span { color: #00B4A6; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #00B4A6; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0A1628 0%, #0d2040 60%, #0a2535 100%);
+      text-align: center; padding: 120px 5% 80px;
+    }
+    .hero-inner { max-width: 780px; }
+    .hero-badge {
+      display: inline-block; background: rgba(0,180,166,0.15); color: #00B4A6;
+      border: 1px solid rgba(0,180,166,0.3); border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      padding: 6px 18px; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.15;
+      color: #fff; margin-bottom: 24px; letter-spacing: -1px;
+    }
+    .hero h1 span { color: #00B4A6; }
+    .hero p {
+      font-size: 1.15rem; color: rgba(255,255,255,0.65); line-height: 1.7;
+      max-width: 580px; margin: 0 auto 40px;
+    }
+    .btn-primary {
+      display: inline-block; background: #00B4A6; color: #fff;
+      padding: 15px 38px; border-radius: 8px; font-weight: 600; font-size: 1rem;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #009e91; transform: translateY(-2px); }
+
+    /* SECTIONS */
+    section { padding: 100px 5%; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: #00B4A6; margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -0.5px;
+      color: #0A1628; margin-bottom: 16px;
+    }
+    .section-sub { font-size: 1.05rem; color: #4a5568; line-height: 1.7; max-width: 560px; }
+
+    /* FEATURES */
+    .features { background: #f7f9fc; }
+    .features-header { text-align: center; margin-bottom: 64px; }
+    .features-header .section-sub { margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
+    .feature-card {
+      background: #fff; border-radius: 16px; padding: 40px 36px;
+      border: 1px solid #e2e8f0; transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.08); transform: translateY(-4px); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(0,180,166,0.1); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .feature-icon i { color: #00B4A6; font-size: 1.3rem; }
+    .feature-card h3 { font-size: 1.15rem; font-weight: 700; color: #0A1628; margin-bottom: 12px; }
+    .feature-card p { font-size: 0.95rem; color: #4a5568; line-height: 1.65; }
+
+    /* HOW IT WORKS */
+    .how { background: #fff; }
+    .how-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .how-steps { display: flex; flex-direction: column; gap: 36px; }
+    .step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+      background: #0A1628; color: #00B4A6; font-weight: 700; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-content h4 { font-size: 1.05rem; font-weight: 700; color: #0A1628; margin-bottom: 6px; }
+    .step-content p { font-size: 0.92rem; color: #4a5568; line-height: 1.65; }
+    .how-visual {
+      background: linear-gradient(135deg, #0A1628, #0d2a45);
+      border-radius: 20px; padding: 48px 40px; color: #fff;
+    }
+    .how-visual h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+    .how-visual p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; margin-bottom: 28px; }
+    .stat-row { display: flex; gap: 32px; }
+    .stat h4 { font-size: 2rem; font-weight: 700; color: #00B4A6; }
+    .stat p { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+    /* FOR PROFESSIONALS */
+    .for-pros { background: #0A1628; }
+    .for-pros-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .for-pros .section-title { color: #fff; }
+    .for-pros .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 48px; }
+    .pros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+    .pro-badge {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 24px 20px; text-align: center;
+    }
+    .pro-badge i { font-size: 1.4rem; color: #00B4A6; margin-bottom: 12px; display: block; }
+    .pro-badge span { font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 500; }
+
+    /* FOOTER */
+    footer {
+      background: #060e1a; padding: 40px 5%;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { color: #fff; font-size: 1.1rem; font-weight: 700; }
+    .footer-logo span { color: #00B4A6; }
+    footer p { color: rgba(255,255,255,0.35); font-size: 0.85rem; }
+    footer a { color: #00B4A6; text-decoration: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .how-inner { grid-template-columns: 1fr; gap: 48px; }
+      .stat-row { gap: 24px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Purified<span>Pay</span></div>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#professionals">For Professionals</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Trusted B2B Payment Infrastructure</div>
+      <h1>Secure Payments for <span>Research Professionals</span></h1>
+      <p>PurifiedPay provides trusted billing and invoicing infrastructure for licensed medical professionals and research-based businesses.</p>
+      <a href="#contact" class="btn-primary">Get Started</a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="features-header">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Everything you need to bill with confidence</h2>
+      <p class="section-sub">Purpose-built tools for B2B health and research businesses that demand reliability and professionalism.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-rotate"></i></div>
+        <h3>Recurring Billing</h3>
+        <p>Offer subscriptions and ongoing service billing with automated charge cycles and smart retry logic.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+        <h3>Automated Invoicing</h3>
+        <p>Generate, customize, and deliver professional invoices with one-click online payment links for your clients.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Compliance-Ready</h3>
+        <p>Built with the rigorous standards required by licensed practitioners, research firms, and regulated industries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <div>
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Up and running in three steps</h2>
+        <div class="how-steps" style="margin-top:40px;">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Apply for Access</h4>
+              <p>Submit your business and licensing information. We verify credentials to maintain a trusted professional network.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Connect Your Account</h4>
+              <p>Link your business bank account and configure your billing preferences, invoicing templates, and client settings.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Start Billing Clients</h4>
+              <p>Send invoices, set up recurring charges, and collect payments — all from one clean dashboard.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-visual">
+        <h3>Built for professionals who can't afford payment friction.</h3>
+        <p>Every feature is designed around the real-world needs of licensed practitioners and research-based businesses.</p>
+        <div class="stat-row">
+          <div class="stat"><h4>100%</h4><p>B2B focused</p></div>
+          <div class="stat"><h4>24/7</h4><p>Payment uptime</p></div>
+          <div class="stat"><h4>Secure</h4><p>Bank-grade encryption</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR PROFESSIONALS -->
+  <section class="for-pros" id="professionals">
+    <div class="for-pros-inner">
+      <div class="section-label">Who It's For</div>
+      <h2 class="section-title">Built for Licensed Practitioners</h2>
+      <p class="section-sub">PurifiedPay is designed for licensed practitioners, research firms, and B2B health services. We keep your billing clean, compliant, and professional.</p>
+      <div class="pros-grid">
+        <div class="pro-badge">
+          <i class="fa-solid fa-user-doctor"></i>
+          <span>Licensed Physicians</span>
+        </div>
+        <div class="pro-badge">
+          <i class="fa-solid fa-flask"></i>
+          <span>Research Firms</span>
+        </div>
+        <div class="pro-badge">
+          <i class="fa-solid fa-building-columns"></i>
+          <span>Health Clinics</span>
+        </div>
+        <div class="pro-badge">
+          <i class="fa-solid fa-briefcase-medical"></i>
+          <span>B2B Health Services</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-logo">Purified<span>Pay</span></div>
+    <p>© 2026 PurifiedPay. All rights reserved. &nbsp;|&nbsp; <a href="mailto:contact@purifiedpay.com">contact@purifiedpay.com</a></p>
+  </footer>
+
+</body>
+</html>
