@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PurifiedPay — Secure Checkout</title>
+<script src="https://web.squarecdn.com/v1/square.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0d1b2a; --navy2: #1b2e45; --teal: #00b4d8;
+    --border: #2a3f55; --text: #e2eaf0; --gray: #8899aa;
+    --success: #22c55e; --error: #f87171;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--navy); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+  nav { background: var(--navy2); border-bottom: 1px solid var(--border); padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 20px; font-weight: 700; color: var(--teal); }
+  .logo span { color: #fff; }
+  .secure-badge { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--gray); }
+
+  .terminal-wrap { max-width: 520px; margin: 48px auto; padding: 0 20px; width: 100%; }
+
+  .order-summary-box {
+    background: var(--navy2); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px; margin-bottom: 20px;
+  }
+  .order-summary-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+  .order-row { display: flex; justify-content: space-between; font-size: 15px; padding: 6px 0; }
+  .order-row.total { font-size: 22px; font-weight: 800; border-top: 1px solid var(--border); margin-top: 10px; padding-top: 14px; }
+  .order-row.total span:last-child { color: var(--teal); }
+
+  .payment-box {
+    background: var(--navy2); border: 1px solid var(--border); border-radius: 14px; padding: 28px;
+  }
+  .payment-box h3 { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: 13px; font-weight: 600; color: var(--gray); }
+  .form-group input {
+    background: var(--navy); border: 1px solid var(--border); border-radius: 8px;
+    padding: 13px 14px; font-size: 15px; color: var(--text); outline: none;
+    transition: border-color 0.2s; width: 100%;
+  }
+  .form-group input:focus { border-color: var(--teal); }
+
+  #card-container {
+    background: var(--navy); border: 1px solid var(--border); border-radius: 8px;
+    padding: 13px 14px; min-height: 54px; margin-top: 6px;
+  }
+
+  .pay-btn {
+    width: 100%; background: var(--teal); color: var(--navy); border: none;
+    border-radius: 10px; padding: 16px; font-size: 18px; font-weight: 700;
+    cursor: pointer; margin-top: 16px; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .pay-btn:hover { background: #0096b4; }
+  .pay-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .secure-note { text-align: center; font-size: 12px; color: var(--gray); margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+  #error-msg { color: var(--error); font-size: 14px; margin-top: 10px; min-height: 18px; }
+
+  /* Confirmation */
+  #confirmation { display: none; text-align: center; padding: 40px 20px; }
+  .confirm-icon { font-size: 64px; margin-bottom: 20px; }
+  #confirmation h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+  #confirmation p { color: var(--gray); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+  .receipt-box { background: var(--navy2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: left; margin: 20px 0; }
+  .receipt-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+  .receipt-row:last-child { border-bottom: none; }
+  .receipt-row span:first-child { color: var(--gray); }
+  .back-btn { display: inline-block; background: var(--teal); color: var(--navy); padding: 14px 32px; border-radius: 8px; font-weight: 700; text-decoration: none; margin-top: 10px; }
+
+  /* Processing */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.92); z-index: 100; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+  .overlay.active { display: flex; }
+  .spinner { width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  footer { margin-top: auto; padding: 24px; text-align: center; font-size: 12px; color: var(--gray); border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Purified<span>Pay</span></div>
+  <div class="secure-badge">
+    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+    SSL Secured
+  </div>
+</nav>
+
+<div class="terminal-wrap">
+
+  <!-- Order Summary -->
+  <div class="order-summary-box" id="order-summary">
+    <h3>Order Summary</h3>
+    <div class="order-row"><span id="order-desc">Loading order...</span><span id="order-amount"></span></div>
+    <div class="order-row total"><span>Total</span><span id="order-total"></span></div>
+  </div>
+
+  <!-- Payment Form -->
+  <div class="payment-box" id="payment-form">
+    <h3>💳 Payment Details</h3>
+
+    <div class="form-group">
+      <label>Name on Card</label>
+      <input type="text" id="cardholder-name" placeholder="Jane Smith" />
+    </div>
+
+    <div class="form-group">
+      <label>Card Details</label>
+      <div id="card-container"></div>
+    </div>
+
+    <div id="error-msg"></div>
+
+    <button class="pay-btn" id="pay-btn" onclick="handlePay()">
+      🔒 Pay <span id="btn-amount"></span>
+    </button>
+
+    <div class="secure-note">
+      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      256-bit SSL · Powered by Square · PurifiedPay LLC
+    </div>
+  </div>
+
+  <!-- Confirmation -->
+  <div id="confirmation">
+    <div class="confirm-icon">✅</div>
+    <h2>Payment Successful!</h2>
+    <p>Your payment was processed securely. You will be redirected to your order confirmation shortly.</p>
+    <div class="receipt-box">
+      <div class="receipt-row"><span>Amount</span><span id="conf-amount"></span></div>
+      <div class="receipt-row"><span>Payment ID</span><span id="conf-payid" style="font-size:11px;"></span></div>
+      <div class="receipt-row"><span>Status</span><span style="color:#22c55e;font-weight:700;">Completed</span></div>
+    </div>
+    <p style="font-size:14px;">Redirecting you back in <span id="countdown">5</span> seconds...</p>
+  </div>
+
+</div>
+
+<!-- Processing overlay -->
+<div class="overlay" id="overlay">
+  <div class="spinner"></div>
+  <div style="font-size:16px;font-weight:600;">Processing payment...</div>
+</div>
+
+<footer>© 2025 PurifiedPay LLC · Professional Advisory Services · info@purifiedpay.com</footer>
+
+<script>
+const APP_ID = 'sq0idp-2TnrAkEeDQ5OOEpI9TyQug';
+const LOCATION_ID = 'LE43QNR075REF';
+const BACKEND = 'https://purifiedpay-api-production.up.railway.app';
+
+// Parse URL params
+const params = new URLSearchParams(window.location.search);
+const orderId  = params.get('order_id') || '';
+const amount   = parseFloat(params.get('amount') || '0');
+const token    = params.get('token') || '';
+const email    = params.get('email') || '';
+const name     = params.get('name') || '';
+const returnUrl = params.get('return_url') || '';
+const cancelUrl = params.get('cancel_url') || '';
+
+// Populate order summary
+document.getElementById('order-desc').textContent = 'Order #' + orderId;
+document.getElementById('order-amount').textContent = '$' + amount.toFixed(2);
+document.getElementById('order-total').textContent = '$' + amount.toFixed(2);
+document.getElementById('btn-amount').textContent = '$' + amount.toFixed(2);
+if (name) document.getElementById('cardholder-name').value = name;
+
+// Init Square
+let squareCard;
+async function initSquare() {
+  const payments = Square.payments(APP_ID, LOCATION_ID);
+  squareCard = await payments.card({
+    style: {
+      '.input-container': { borderColor: '#2a3f55', borderRadius: '8px' },
+      '.input-container.is-focus': { borderColor: '#00b4d8' },
+      '.input-container.is-error': { borderColor: '#f87171' },
+      input: { color: '#e2eaf0', fontSize: '15px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
+      'input::placeholder': { color: '#4a6080' }
+    }
+  });
+  await squareCard.attach('#card-container');
+}
+
+document.addEventListener('DOMContentLoaded', initSquare);
+
+async function handlePay() {
+  document.getElementById('error-msg').textContent = '';
+  document.getElementById('overlay').classList.add('active');
+  document.getElementById('pay-btn').disabled = true;
+
+  try {
+    const result = await squareCard.tokenize();
+    if (result.status !== 'OK') {
+      throw new Error((result.errors || []).map(e => e.message).join(' '));
+    }
+
+    const resp = await fetch(BACKEND + '/charge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: result.token,
+        amount: Math.round(amount * 100),
+        service: 'Order #' + orderId,
+        email: email,
+        name: name
+      })
+    });
+
+    const data = await resp.json();
+    document.getElementById('overlay').classList.remove('active');
+
+    if (data.success) {
+      // Show confirmation
+      document.getElementById('payment-form').style.display = 'none';
+      document.getElementById('order-summary').style.display = 'none';
+      document.getElementById('confirmation').style.display = 'block';
+      document.getElementById('conf-amount').textContent = '$' + amount.toFixed(2);
+      document.getElementById('conf-payid').textContent = data.payment_id;
+
+      // Countdown and redirect back to PP site
+      let count = 5;
+      const timer = setInterval(() => {
+        count--;
+        document.getElementById('countdown').textContent = count;
+        if (count <= 0) {
+          clearInterval(timer);
+          if (returnUrl) {
+            window.location.href = returnUrl + '&status=success&payment_id=' + data.payment_id;
+          }
+        }
+      }, 1000);
+    } else {
+      throw new Error(data.error || 'Payment failed.');
+    }
+
+  } catch (err) {
+    document.getElementById('overlay').classList.remove('active');
+    document.getElementById('pay-btn').disabled = false;
+    document.getElementById('error-msg').textContent = err.message;
+  }
+}
+</script>
+</body>
+</html>
