@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PurifiedPay — Professional Advisory Services</title>
-<script src="https://js.stripe.com/v3/"></script>
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -450,11 +450,27 @@
       </div>
 
       <div class="form-section">
-        <div class="form-section-title">Payment Information</div>
-        <div class="form-group"><label>Card Number</label><div class="stripe-field" id="card-number-element"></div></div>
+        <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between;">Payment Information <span style="font-size:11px;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.2);padding:3px 10px;border-radius:20px;color:var(--teal);font-weight:600;letter-spacing:0;">⬛ Powered by Square</span></div>
+        <div class="form-group">
+          <label>Card Number</label>
+          <div class="stripe-field" style="padding:0;display:flex;align-items:center;gap:10px;padding:0 14px;">
+            <span id="card-type-icon" style="font-size:13px;color:var(--gray);min-width:80px;">💳</span>
+            <input id="card-number-input" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" style="background:transparent;border:none;outline:none;color:var(--text);font-size:15px;width:100%;padding:13px 0;" />
+          </div>
+        </div>
         <div class="card-row">
-          <div class="form-group"><label>Expiration Date</label><div class="stripe-field" id="card-expiry-element"></div></div>
-          <div class="form-group"><label>Security Code</label><div class="stripe-field" id="card-cvc-element"></div></div>
+          <div class="form-group">
+            <label>Expiration Date</label>
+            <div class="stripe-field" style="padding:0;">
+              <input id="card-expiry-input" type="text" inputmode="numeric" placeholder="MM / YY" maxlength="5" style="background:transparent;border:none;outline:none;color:var(--text);font-size:15px;width:100%;padding:13px 14px;" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Security Code</label>
+            <div class="stripe-field" style="padding:0;">
+              <input id="card-cvc-input" type="text" inputmode="numeric" placeholder="CVV" maxlength="4" style="background:transparent;border:none;outline:none;color:var(--text);font-size:15px;width:100%;padding:13px 14px;" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -466,7 +482,7 @@
       </button>
       <div class="secure-note">
         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        256-bit SSL encrypted · Secured by Stripe
+        256-bit SSL encrypted · Secured by Square
       </div>
     </div>
 
