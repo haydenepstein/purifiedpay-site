@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PurifiedPay — Professional Advisory Services</title>
-
+<script src="https://web.squarecdn.com/v1/square.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -450,27 +450,10 @@
       </div>
 
       <div class="form-section">
-        <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between;">Payment Information <span style="font-size:11px;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.2);padding:3px 10px;border-radius:20px;color:var(--teal);font-weight:600;letter-spacing:0;">⬛ Powered by Square</span></div>
-        <div class="form-group">
-          <label>Card Number</label>
-          <div class="stripe-field" style="padding:0;display:flex;align-items:center;gap:10px;padding:0 14px;">
-            <span id="card-type-icon" style="font-size:13px;color:var(--gray);min-width:80px;">💳</span>
-            <input id="card-number-input" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" style="background:transparent;border:none;outline:none;color:var(--text);font-size:15px;width:100%;padding:13px 0;" />
-          </div>
-        </div>
-        <div class="card-row">
-          <div class="form-group">
-            <label>Expiration Date</label>
-            <div class="stripe-field" style="padding:0;">
-              <input id="card-expiry-input" type="text" inputmode="numeric" placeholder="MM / YY" maxlength="5" style="background:transparent;border:none;outline:none;color:var(--text);font-size:15px;width:100%;padding:13px 14px;" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Security Code</label>
-            <div class="stripe-field" style="padding:0;">
-              <input id="card-cvc-input" type="text" inputmode="numeric" placeholder="CVV" maxlength="4" style="background:transparent;border:none;outline:none;color:var(--text);font-size:15px;width:100%;padding:13px 14px;" />
-            </div>
-          </div>
+        <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between;">Payment Information <span style="font-size:11px;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.2);padding:3px 10px;border-radius:20px;color:var(--teal);font-weight:600;">⬛ Powered by Square</span></div>
+        <div class="form-group" style="margin-top:14px;">
+          <label>Card Details</label>
+          <div id="card-container" style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:12px 14px;min-height:52px;transition:border-color 0.2s;"></div>
         </div>
       </div>
 
@@ -617,7 +600,20 @@ async function handleSubmit() {
   if (!firstName || !lastName || !email) { showError('Please fill in your contact information.'); return; }
   if (!selectedService) { showError('Please select an advisory service.'); return; }
   document.getElementById('processing-overlay').classList.add('active');
-  await new Promise(r => setTimeout(r, 2500));
+  try {
+    if (squareCard) {
+      const result = await squareCard.tokenize();
+      if (result.status === 'OK') {
+        // Token ready: result.token — send to backend when live
+        console.log('Square token:', result.token);
+      } else {
+        const errs = result.errors.map(e => e.message).join(', ');
+        document.getElementById('processing-overlay').classList.remove('active');
+        showError(errs); return;
+      }
+    }
+  } catch(e) { console.log('Square tokenize error:', e); }
+  await new Promise(r => setTimeout(r, 1500));
   document.getElementById('processing-overlay').classList.remove('active');
   showConfirmation(firstName, lastName, email);
 }
