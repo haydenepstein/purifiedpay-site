@@ -599,26 +599,51 @@ async function handleSubmit() {
   const email     = document.getElementById('email').value.trim();
   if (!firstName || !lastName || !email) { showError('Please fill in your contact information.'); return; }
   if (!selectedService) { showError('Please select an advisory service.'); return; }
+
   document.getElementById('processing-overlay').classList.add('active');
+
   try {
-    if (squareCard) {
-      const result = await squareCard.tokenize();
-      if (result.status === 'OK') {
-        // Token ready: result.token — send to backend when live
-        console.log('Square token:', result.token);
-      } else {
-        const errs = result.errors.map(e => e.message).join(', ');
-        document.getElementById('processing-overlay').classList.remove('active');
-        showError(errs); return;
-      }
+    // Tokenize card with Square
+    const tokenResult = await squareCard.tokenize();
+    if (tokenResult.status !== 'OK') {
+      const errs = tokenResult.errors.map(e => e.message).join(', ');
+      document.getElementById('processing-overlay').classList.remove('active');
+      showError(errs); return;
     }
-  } catch(e) { console.log('Square tokenize error:', e); }
-  await new Promise(r => setTimeout(r, 1500));
-  document.getElementById('processing-overlay').classList.remove('active');
-  showConfirmation(firstName, lastName, email);
+
+    const token = tokenResult.token;
+    const amountCents = selectedPrice * 100;
+
+    // Send token + amount to backend
+    const resp = await fetch('https://purifiedpay-api-production.up.railway.app/charge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: token,
+        amount: amountCents,
+        service: selectedService,
+        email: email,
+        name: firstName + ' ' + lastName
+      })
+    });
+
+    const result = await resp.json();
+    document.getElementById('processing-overlay').classList.remove('active');
+
+    if (result.success) {
+      showConfirmation(firstName, lastName, email, result.receipt_url);
+    } else {
+      showError(result.error || 'Payment failed. Please try again.');
+    }
+
+  } catch(e) {
+    document.getElementById('processing-overlay').classList.remove('active');
+    showError('Connection error. Please try again.');
+    console.error(e);
+  }
 }
 
-function showConfirmation(first, last, email) {
+function showConfirmation(first, last, email, receiptUrl) {
   const ref  = 'REF-PP-' + Math.floor(100000 + Math.random() * 900000);
   const date = document.getElementById('pref-date').value || 'To be scheduled';
   document.getElementById('confirm-ref-num').textContent  = ref;
@@ -627,6 +652,16 @@ function showConfirmation(first, last, email) {
   document.getElementById('confirm-email').textContent    = email;
   document.getElementById('confirm-date').textContent     = date;
   document.getElementById('confirm-amount').textContent   = `$${selectedPrice}.00`;
+  if (receiptUrl) {
+    const receiptLink = document.createElement('a');
+    receiptLink.href = receiptUrl;
+    receiptLink.textContent = 'View Receipt →';
+    receiptLink.target = '_blank';
+    receiptLink.style.color = 'var(--teal)';
+    receiptLink.style.display = 'block';
+    receiptLink.style.marginTop = '12px';
+    document.getElementById('confirm-ref-num').parentNode.appendChild(receiptLink);
+  }
   document.getElementById('checkout-section').classList.remove('visible');
   document.getElementById('confirmation-section').classList.add('visible');
   document.getElementById('confirmation-section').scrollIntoView({ behavior: 'smooth' });
