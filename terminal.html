@@ -171,44 +171,55 @@ document.getElementById('order-total').textContent = '$' + amount.toFixed(2);
 document.getElementById('btn-amount').textContent = '$' + amount.toFixed(2);
 if (name) document.getElementById('cardholder-name').value = name;
 
-// Init Square with retry
+// Square init
 let squareCard = null;
-let initAttempts = 0;
+
+function showCardError(msg) {
+  const el = document.getElementById('card-container');
+  if (el) el.innerHTML = '<div style="color:#f87171;font-size:12px;padding:8px;background:rgba(248,113,113,0.1);border-radius:6px;border:1px solid rgba(248,113,113,0.3);">⚠️ ' + msg + '<br><br><small>If this persists, use Zelle or contact us at info@purifiedpay.com</small></div>';
+}
 
 async function initSquare() {
-  initAttempts++;
+  const container = document.getElementById('card-container');
+  if (!container) return;
+
   if (!window.Square) {
-    if (initAttempts < 10) {
-      setTimeout(initSquare, 500);
-    } else {
-      document.getElementById('card-container').innerHTML = '<p style="color:#f87171;font-size:13px;padding:10px 0;">Payment form failed to load. Please refresh the page.</p>';
-    }
+    showCardError('Payment SDK failed to load. Please refresh the page.');
     return;
   }
 
   try {
     const payments = Square.payments(APP_ID, LOCATION_ID);
-    squareCard = await payments.card({
+
+    const card = await payments.card({
       style: {
         '.input-container': { borderColor: '#2a3f55', borderRadius: '8px' },
         '.input-container.is-focus': { borderColor: '#00b4d8' },
         '.input-container.is-error': { borderColor: '#f87171' },
         input: { color: '#e2eaf0', fontSize: '16px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
-        'input::placeholder': { color: '#4a6080' }
+        'input::placeholder': { color: '#4a6080' },
+        'input.is-focus': { color: '#ffffff' }
       }
     });
-    await squareCard.attach('#card-container');
-    console.log('Square card initialized successfully');
+
+    await card.attach('#card-container');
+    squareCard = card;
+    console.log('Square ready');
+
   } catch(err) {
-    console.error('Square init failed:', err);
-    document.getElementById('card-container').innerHTML = '<p style="color:#f87171;font-size:13px;padding:10px 0;">Card form error: ' + err.message + '</p>';
+    console.error('Square error:', err);
+    // Show full error detail for debugging
+    showCardError('Init error: ' + (err.message || JSON.stringify(err)));
   }
 }
 
-// Wait for Square SDK then init
-window.addEventListener('load', function() {
-  setTimeout(initSquare, 300);
-});
+// Try init multiple ways for reliability
+if (document.readyState === 'complete') {
+  setTimeout(initSquare, 200);
+} else {
+  window.addEventListener('load', function() { setTimeout(initSquare, 200); });
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(initSquare, 800); });
+}
 
 async function handlePay() {
   document.getElementById('error-msg').textContent = '';
