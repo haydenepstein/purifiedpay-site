@@ -3,263 +3,806 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PurifiedPay — Secure Payments for Health & Wellness Professionals</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <title>PurifiedPay — Health & Wellness Consulting Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; color: #0A1628; background: #fff; }
 
-    /* NAV */
+    /* ─── NAV ─── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 68px;
-      background: rgba(10,22,40,0.97); backdrop-filter: blur(8px);
+      padding: 0 5%; height: 70px;
+      background: rgba(10,22,40,0.97); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .nav-logo { color: #fff; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.5px; }
+    .nav-logo { color: #fff; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; text-decoration: none; }
     .nav-logo span { color: #00B4A6; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: #00B4A6; }
+    .nav-cta {
+      background: #00B4A6; color: #fff; padding: 10px 24px; border-radius: 8px;
+      font-weight: 600; font-size: 0.9rem; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: #009e91; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; }
 
-    /* HERO */
+    /* ─── HERO ─── */
     .hero {
       min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #0A1628 0%, #0d2040 60%, #0a2535 100%);
-      text-align: center; padding: 120px 5% 80px;
+      background: linear-gradient(135deg, #0A1628 0%, #0d2040 55%, #0a2535 100%);
+      text-align: center; padding: 130px 5% 90px; position: relative; overflow: hidden;
     }
-    .hero-inner { max-width: 780px; }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,180,166,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 800px; position: relative; z-index: 1; }
     .hero-badge {
-      display: inline-block; background: rgba(0,180,166,0.15); color: #00B4A6;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,180,166,0.12); color: #00B4A6;
       border: 1px solid rgba(0,180,166,0.3); border-radius: 50px;
-      font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-      padding: 6px 18px; margin-bottom: 24px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 7px 20px; margin-bottom: 28px;
     }
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.15;
-      color: #fff; margin-bottom: 24px; letter-spacing: -1px;
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem); font-weight: 800; line-height: 1.12;
+      color: #fff; margin-bottom: 24px; letter-spacing: -1.5px;
     }
     .hero h1 span { color: #00B4A6; }
     .hero p {
-      font-size: 1.15rem; color: rgba(255,255,255,0.65); line-height: 1.7;
-      max-width: 580px; margin: 0 auto 40px;
+      font-size: 1.15rem; color: rgba(255,255,255,0.65); line-height: 1.75;
+      max-width: 600px; margin: 0 auto 44px;
     }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
     .btn-primary {
       display: inline-block; background: #00B4A6; color: #fff;
-      padding: 15px 38px; border-radius: 8px; font-weight: 600; font-size: 1rem;
+      padding: 15px 38px; border-radius: 8px; font-weight: 700; font-size: 1rem;
       text-decoration: none; transition: background 0.2s, transform 0.2s;
+      border: 2px solid #00B4A6;
     }
-    .btn-primary:hover { background: #009e91; transform: translateY(-2px); }
+    .btn-primary:hover { background: #009e91; border-color: #009e91; transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-block; background: transparent; color: #fff;
+      padding: 15px 38px; border-radius: 8px; font-weight: 600; font-size: 1rem;
+      text-decoration: none; border: 2px solid rgba(255,255,255,0.3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: #00B4A6; color: #00B4A6; }
+    .hero-trust {
+      margin-top: 56px; display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    }
+    .trust-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    .trust-item i { color: #00B4A6; }
 
-    /* SECTIONS */
-    section { padding: 100px 5%; }
+    /* ─── SECTION BASE ─── */
     .section-label {
       font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      color: #00B4A6; margin-bottom: 14px;
+      color: #00B4A6; margin-bottom: 12px;
     }
     .section-title {
-      font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 700; letter-spacing: -0.5px;
-      color: #0A1628; margin-bottom: 16px;
+      font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -0.8px;
+      color: #0A1628; margin-bottom: 16px; line-height: 1.2;
     }
-    .section-sub { font-size: 1.05rem; color: #4a5568; line-height: 1.7; max-width: 560px; }
+    .section-sub { font-size: 1.05rem; color: #4a5568; line-height: 1.75; }
 
-    /* FEATURES */
-    .features { background: #f7f9fc; }
-    .features-header { text-align: center; margin-bottom: 64px; }
-    .features-header .section-sub { margin: 0 auto; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
-    .feature-card {
-      background: #fff; border-radius: 16px; padding: 40px 36px;
-      border: 1px solid #e2e8f0; transition: box-shadow 0.2s, transform 0.2s;
+    /* ─── SERVICES ─── */
+    #services { padding: 100px 5%; background: #f7f9fc; }
+    .services-header { text-align: center; margin-bottom: 64px; }
+    .services-header .section-sub { max-width: 520px; margin: 0 auto; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 28px; max-width: 1100px; margin: 0 auto;
     }
-    .feature-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.08); transform: translateY(-4px); }
-    .feature-icon {
-      width: 52px; height: 52px; border-radius: 12px;
+    .service-card {
+      background: #fff; border-radius: 16px; padding: 36px 32px;
+      border: 1px solid #e2e8f0; transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #00B4A6, #0d8a80); opacity: 0; transition: opacity 0.25s;
+    }
+    .service-card:hover {
+      box-shadow: 0 16px 48px rgba(0,180,166,0.12), 0 4px 16px rgba(0,0,0,0.06);
+      transform: translateY(-5px); border-color: rgba(0,180,166,0.3);
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 56px; height: 56px; border-radius: 14px;
       background: rgba(0,180,166,0.1); display: flex; align-items: center; justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 22px; font-size: 1.5rem;
     }
-    .feature-icon i { color: #00B4A6; font-size: 1.3rem; }
-    .feature-card h3 { font-size: 1.15rem; font-weight: 700; color: #0A1628; margin-bottom: 12px; }
-    .feature-card p { font-size: 0.95rem; color: #4a5568; line-height: 1.65; }
+    .service-card h3 { font-size: 1.08rem; font-weight: 700; color: #0A1628; margin-bottom: 12px; line-height: 1.3; }
+    .service-card p { font-size: 0.9rem; color: #4a5568; line-height: 1.7; flex: 1; margin-bottom: 24px; }
+    .service-price {
+      font-size: 1.6rem; font-weight: 800; color: #0A1628; margin-bottom: 20px; letter-spacing: -0.5px;
+    }
+    .service-price span { font-size: 0.85rem; font-weight: 500; color: #718096; margin-left: 2px; }
+    .btn-book {
+      display: block; text-align: center; background: #0A1628; color: #fff;
+      padding: 13px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+      text-decoration: none; border: 2px solid #0A1628; transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .btn-book:hover { background: #00B4A6; border-color: #00B4A6; }
 
-    /* HOW IT WORKS */
-    .how { background: #fff; }
-    .how-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .how-steps { display: flex; flex-direction: column; gap: 36px; }
-    .step { display: flex; gap: 20px; align-items: flex-start; }
+    /* ─── HOW IT WORKS ─── */
+    #how-it-works { padding: 100px 5%; background: #fff; }
+    .how-inner { max-width: 900px; margin: 0 auto; }
+    .how-header { text-align: center; margin-bottom: 64px; }
+    .steps-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; position: relative;
+    }
+    .steps-row::before {
+      content: ''; position: absolute; top: 30px; left: calc(16.66% + 30px); right: calc(16.66% + 30px);
+      height: 2px; background: linear-gradient(90deg, #00B4A6, rgba(0,180,166,0.2));
+      z-index: 0;
+    }
+    .step-card { text-align: center; position: relative; z-index: 1; }
     .step-num {
-      flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
-      background: #0A1628; color: #00B4A6; font-weight: 700; font-size: 1rem;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #0A1628; color: #00B4A6; font-weight: 800; font-size: 1.2rem;
       display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px; border: 3px solid #00B4A6;
     }
-    .step-content h4 { font-size: 1.05rem; font-weight: 700; color: #0A1628; margin-bottom: 6px; }
-    .step-content p { font-size: 0.92rem; color: #4a5568; line-height: 1.65; }
-    .how-visual {
-      background: linear-gradient(135deg, #0A1628, #0d2a45);
-      border-radius: 20px; padding: 48px 40px; color: #fff;
-    }
-    .how-visual h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
-    .how-visual p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; margin-bottom: 28px; }
-    .stat-row { display: flex; gap: 32px; }
-    .stat h4 { font-size: 2rem; font-weight: 700; color: #00B4A6; }
-    .stat p { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+    .step-card h4 { font-size: 1.05rem; font-weight: 700; color: #0A1628; margin-bottom: 10px; }
+    .step-card p { font-size: 0.9rem; color: #4a5568; line-height: 1.65; }
+    .step-icon { font-size: 1.4rem; margin-bottom: 12px; }
 
-    /* FOR PROFESSIONALS */
-    .for-pros { background: #0A1628; }
-    .for-pros-inner { max-width: 900px; margin: 0 auto; text-align: center; }
-    .for-pros .section-title { color: #fff; }
-    .for-pros .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 48px; }
-    .pros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
-    .pro-badge {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; padding: 24px 20px; text-align: center;
+    /* ─── CHECKOUT ─── */
+    #checkout { padding: 100px 5%; background: #f7f9fc; }
+    .checkout-header { text-align: center; margin-bottom: 56px; }
+    .checkout-layout {
+      display: grid; grid-template-columns: 1fr 380px; gap: 40px;
+      max-width: 1060px; margin: 0 auto;
     }
-    .pro-badge i { font-size: 1.4rem; color: #00B4A6; margin-bottom: 12px; display: block; }
-    .pro-badge span { font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 500; }
-
-    /* FOOTER */
-    footer {
-      background: #060e1a; padding: 40px 5%;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    .checkout-form-box {
+      background: #fff; border-radius: 20px; padding: 44px;
+      border: 1px solid #e2e8f0; box-shadow: 0 4px 24px rgba(0,0,0,0.05);
     }
-    .footer-logo { color: #fff; font-size: 1.1rem; font-weight: 700; }
-    .footer-logo span { color: #00B4A6; }
-    footer p { color: rgba(255,255,255,0.35); font-size: 0.85rem; }
-    footer a { color: #00B4A6; text-decoration: none; }
+    .form-section-title {
+      font-size: 1.05rem; font-weight: 700; color: #0A1628; margin-bottom: 24px;
+      padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .form-section-title i { color: #00B4A6; }
+    .form-group { margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 7px; }
+    label .required { color: #e53e3e; margin-left: 3px; }
+    input[type="text"], input[type="email"], input[type="tel"],
+    input[type="date"], select, textarea {
+      width: 100%; padding: 12px 16px; border: 1.5px solid #d1d5db; border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #0A1628;
+      background: #fff; transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none; appearance: none; -webkit-appearance: none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus,
+    input[type="date"]:focus, select:focus, textarea:focus {
+      border-color: #00B4A6; box-shadow: 0 0 0 3px rgba(0,180,166,0.12);
+    }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+    textarea { resize: vertical; min-height: 100px; }
+    .service-selector select { font-weight: 600; font-size: 1rem; padding: 14px 40px 14px 16px; }
+    .payment-section { margin-top: 32px; }
+    .card-input-wrap { position: relative; }
+    .card-brands {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      display: flex; gap: 5px; align-items: center;
+    }
+    .card-brand {
+      height: 22px; padding: 2px 6px; border-radius: 4px;
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.5px;
+      display: flex; align-items: center;
+    }
+    .card-brand.visa { background: #1a1f71; color: #fff; }
+    .card-brand.mc { background: linear-gradient(90deg, #eb001b 40%, #f79e1b 60%); color: #fff; font-size: 0.55rem; }
+    .card-brand.amex { background: #007bc1; color: #fff; }
+    #card-number { padding-right: 110px; font-family: 'Courier New', monospace; letter-spacing: 2px; }
+    .btn-complete {
+      width: 100%; padding: 18px 24px; margin-top: 8px;
+      background: linear-gradient(135deg, #00B4A6, #009e91);
+      color: #fff; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 10px; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-complete:hover { opacity: 0.93; transform: translateY(-1px); }
+    .btn-complete:active { transform: translateY(0); }
+    .security-badges {
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      margin-top: 16px; flex-wrap: wrap;
+    }
+    .security-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; color: #6b7280; font-weight: 500;
+    }
+    .security-badge i { color: #00B4A6; font-size: 0.85rem; }
+    .fine-print {
+      text-align: center; font-size: 0.78rem; color: #9ca3af; margin-top: 14px; line-height: 1.6;
+    }
+    /* Order Summary */
+    .order-summary-box {
+      background: #fff; border-radius: 20px; padding: 36px 32px;
+      border: 1px solid #e2e8f0; box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+      height: fit-content; position: sticky; top: 90px;
+    }
+    .order-summary-box h3 {
+      font-size: 1rem; font-weight: 700; color: #0A1628; margin-bottom: 24px;
+      padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;
+    }
+    .order-service-name { font-size: 1rem; font-weight: 600; color: #0A1628; margin-bottom: 6px; }
+    .order-service-desc { font-size: 0.83rem; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
+    .order-line {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #f0f4f8; font-size: 0.9rem;
+    }
+    .order-line:last-child { border-bottom: none; }
+    .order-line .label { color: #6b7280; }
+    .order-line .value { font-weight: 600; color: #0A1628; }
+    .order-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 0 0; margin-top: 4px;
+    }
+    .order-total .label { font-weight: 700; font-size: 1rem; color: #0A1628; }
+    .order-total .value { font-size: 1.6rem; font-weight: 800; color: #00B4A6; }
+    .secure-badge-box {
+      background: rgba(0,180,166,0.06); border: 1px solid rgba(0,180,166,0.2);
+      border-radius: 10px; padding: 14px 16px; margin-top: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .secure-badge-box i { color: #00B4A6; font-size: 1.2rem; flex-shrink: 0; }
+    .secure-badge-box p { font-size: 0.8rem; color: #4a5568; line-height: 1.5; }
+    .secure-badge-box strong { color: #0A1628; }
+    /* Success Message */
+    .success-msg {
+      display: none; background: linear-gradient(135deg, #d1fae5, #ecfdf5);
+      border: 2px solid #10b981; border-radius: 16px; padding: 40px;
+      text-align: center; margin-top: 20px;
+    }
+    .success-msg h3 { font-size: 1.5rem; font-weight: 800; color: #064e3b; margin: 16px 0 10px; }
+    .success-msg p { color: #065f46; font-size: 0.95rem; line-height: 1.6; }
+    .success-icon { font-size: 3rem; }
 
-    /* RESPONSIVE */
+    /* ─── ABOUT ─── */
+    #about { padding: 100px 5%; background: #0A1628; }
+    .about-inner { max-width: 1000px; margin: 0 auto; }
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    #about .section-label { color: #00B4A6; }
+    #about .section-title { color: #fff; }
+    #about p { color: rgba(255,255,255,0.65); line-height: 1.8; font-size: 0.97rem; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .stat-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 28px 20px; text-align: center;
+    }
+    .stat-card h4 { font-size: 2rem; font-weight: 800; color: #00B4A6; margin-bottom: 6px; }
+    .stat-card p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
+    .about-bullets { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .about-bullets li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.93rem; color: rgba(255,255,255,0.7); }
+    .about-bullets li i { color: #00B4A6; margin-top: 2px; flex-shrink: 0; }
+
+    /* ─── FOOTER ─── */
+    footer { background: #060e1a; padding: 50px 5% 30px; }
+    .footer-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 28px;
+    }
+    .footer-brand .footer-logo { color: #fff; font-size: 1.3rem; font-weight: 700; text-decoration: none; }
+    .footer-brand .footer-logo span { color: #00B4A6; }
+    .footer-brand p { color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-top: 10px; line-height: 1.6; max-width: 280px; }
+    .footer-links h5 { color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-links a:hover { color: #00B4A6; }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { color: rgba(255,255,255,0.3); font-size: 0.82rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-bottom a:hover { color: #00B4A6; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary-box { position: static; }
+      .about-layout { grid-template-columns: 1fr; gap: 48px; }
+    }
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .how-inner { grid-template-columns: 1fr; gap: 48px; }
-      .stat-row { gap: 24px; }
-      footer { flex-direction: column; text-align: center; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .steps-row { grid-template-columns: 1fr; }
+      .steps-row::before { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: repeat(3, 1fr); }
+      .checkout-form-box { padding: 28px 22px; }
+      footer .footer-top { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .about-stats { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
+  <!-- ═══════════ NAV ═══════════ -->
   <nav>
-    <div class="nav-logo">Purified<span>Pay</span></div>
+    <a class="nav-logo" href="#">Purified<span>Pay</span></a>
     <ul class="nav-links">
-      <li><a href="#how">How It Works</a></li>
-      <li><a href="#professionals">For Professionals</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#checkout">Contact</a></li>
     </ul>
+    <a href="#checkout" class="nav-cta">Book a Consultation</a>
+    <div class="hamburger" onclick="document.querySelector('.nav-links').style.display='flex'; document.querySelector('.nav-links').style.flexDirection='column'; document.querySelector('.nav-links').style.position='absolute'; document.querySelector('.nav-links').style.top='70px'; document.querySelector('.nav-links').style.left='0'; document.querySelector('.nav-links').style.right='0'; document.querySelector('.nav-links').style.background='rgba(10,22,40,0.98)'; document.querySelector('.nav-links').style.padding='20px 5%';">
+      <span></span><span></span><span></span>
+    </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ═══════════ HERO ═══════════ -->
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-badge">Trusted B2B Payment Infrastructure</div>
-      <h1>Secure Payments for <span>Health & Wellness Professionals</span></h1>
-      <p>PurifiedPay provides trusted billing and invoicing infrastructure for licensed practitioners and wellness-based consultation businesses.</p>
-      <a href="#contact" class="btn-primary">Get Started</a>
+      <div class="hero-badge"><i class="fa-solid fa-circle-check"></i> Certified Wellness Consultants</div>
+      <h1>Expert Health &amp; <span>Wellness Consulting</span></h1>
+      <p>Personalized guidance on vitamins, supplements, and nutritional strategies from certified wellness consultants dedicated to your health goals.</p>
+      <div class="hero-btns">
+        <a href="#services" class="btn-primary"><i class="fa-solid fa-list-ul" style="margin-right:8px;"></i>View Our Services</a>
+        <a href="#how-it-works" class="btn-ghost">Learn More</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> Secure &amp; Confidential</div>
+        <div class="trust-item"><i class="fa-solid fa-user-check"></i> Certified Experts</div>
+        <div class="trust-item"><i class="fa-solid fa-star"></i> 98% Satisfaction Rate</div>
+        <div class="trust-item"><i class="fa-solid fa-clock"></i> Flexible Scheduling</div>
+      </div>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="features-header">
+  <!-- ═══════════ SERVICES ═══════════ -->
+  <section id="services">
+    <div class="services-header">
       <div class="section-label">What We Offer</div>
-      <h2 class="section-title">Everything you need to bill with confidence</h2>
-      <p class="section-sub">Purpose-built tools for B2B wellness and consultation businesses that demand reliability and professionalism.</p>
+      <h2 class="section-title">Our Consulting Services</h2>
+      <p class="section-sub">Select the consultation type that fits your needs and start your wellness journey today.</p>
     </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-rotate"></i></div>
-        <h3>Recurring Billing</h3>
-        <p>Offer subscriptions and ongoing service billing with automated charge cycles and smart retry logic.</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-icon">💊</div>
+        <h3>Vitamin Optimization Consultation</h3>
+        <p>One-on-one session reviewing your current vitamin regimen, lab work, and deficiencies. Get a personalized optimization plan tailored to your biology.</p>
+        <div class="service-price">$149</div>
+        <a href="#checkout" class="btn-book" onclick="selectService('vitamin')">Book Now</a>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-        <h3>Automated Invoicing</h3>
-        <p>Generate, customize, and deliver professional invoices with one-click online payment links for your clients.</p>
+
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <h3>Creatine &amp; Performance Consultation</h3>
+        <p>Expert guidance on creatine protocols, loading strategies, and performance supplementation for your specific goals and athletic demands.</p>
+        <div class="service-price">$129</div>
+        <a href="#checkout" class="btn-book" onclick="selectService('creatine')">Book Now</a>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <h3>Compliance-Ready</h3>
-        <p>Built with the standards required by licensed practitioners, wellness consultation firms, and professional service businesses.</p>
+
+      <div class="service-card">
+        <div class="service-icon">🔬</div>
+        <h3>Supplement Stack Review</h3>
+        <p>Comprehensive audit of your entire supplement stack. Identify gaps, redundancies, and optimization opportunities to maximize results.</p>
+        <div class="service-price">$179</div>
+        <a href="#checkout" class="btn-book" onclick="selectService('stack')">Book Now</a>
       </div>
+
+      <div class="service-card">
+        <div class="service-icon">🥗</div>
+        <h3>Nutritional Strategy Session</h3>
+        <p>Deep-dive session covering macros, micronutrients, meal timing, and evidence-based nutritional protocols designed for your lifestyle.</p>
+        <div class="service-price">$199</div>
+        <a href="#checkout" class="btn-book" onclick="selectService('nutrition')">Book Now</a>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🌿</div>
+        <h3>Wellness Assessment &amp; Plan</h3>
+        <p>Full wellness evaluation including lifestyle, sleep, stress, and supplementation analysis. Receive a comprehensive 30-day action plan.</p>
+        <div class="service-price">$249</div>
+        <a href="#checkout" class="btn-book" onclick="selectService('wellness')">Book Now</a>
+      </div>
+
+      <div class="service-card" style="border: 2px solid rgba(0,180,166,0.35); background: linear-gradient(to bottom right, #fff, rgba(0,180,166,0.03));">
+        <div style="position:absolute;top:16px;right:16px;background:#00B4A6;color:#fff;font-size:0.7rem;font-weight:700;padding:4px 10px;border-radius:50px;letter-spacing:0.5px;">BEST VALUE</div>
+        <div class="service-icon">📅</div>
+        <h3>Monthly Wellness Coaching</h3>
+        <p>Ongoing monthly support with weekly check-ins, protocol adjustments, and direct consultant access. Your dedicated wellness partner.</p>
+        <div class="service-price">$399<span>/mo</span></div>
+        <a href="#checkout" class="btn-book" onclick="selectService('coaching')" style="background:#00B4A6;border-color:#00B4A6;">Book Now</a>
+      </div>
+
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="how" id="how">
+  <!-- ═══════════ HOW IT WORKS ═══════════ -->
+  <section id="how-it-works">
     <div class="how-inner">
+      <div class="how-header">
+        <div class="section-label">Simple Process</div>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-sub" style="max-width:480px;margin:0 auto;">Get started in three simple steps and be on your way to optimized health.</p>
+      </div>
+      <div class="steps-row">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon">🛒</div>
+          <h4>Select Your Service</h4>
+          <p>Browse our consultation options and choose the one that aligns with your health and wellness goals.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon">🔒</div>
+          <h4>Complete Secure Checkout</h4>
+          <p>Fill out your details and complete payment through our encrypted, PCI-compliant checkout process.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon">📞</div>
+          <h4>Schedule Your Session</h4>
+          <p>Receive a confirmation email with your booking details and a scheduling link to pick your preferred time slot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CHECKOUT ═══════════ -->
+  <section id="checkout">
+    <div class="checkout-header">
+      <div class="section-label">Secure Booking</div>
+      <h2 class="section-title">Book Your Consultation</h2>
+      <p class="section-sub" style="max-width:500px;margin:0 auto;">Complete your booking below. All transactions are secured with 256-bit SSL encryption.</p>
+    </div>
+
+    <div class="checkout-layout">
+      <!-- FORM -->
       <div>
-        <div class="section-label">How It Works</div>
-        <h2 class="section-title">Up and running in three steps</h2>
-        <div class="how-steps" style="margin-top:40px;">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-content">
-              <h4>Apply for Access</h4>
-              <p>Submit your business and licensing information. We verify credentials to maintain a trusted professional network.</p>
+        <div class="checkout-form-box">
+          <div id="checkout-form-content">
+            <!-- Service Selector -->
+            <div class="form-section-title"><i class="fa-solid fa-calendar-check"></i> Select Your Service</div>
+            <div class="form-group service-selector">
+              <label for="service-select">Consultation Type <span class="required">*</span></label>
+              <select id="service-select" onchange="updateOrderSummary()">
+                <option value="" disabled selected>— Choose a consultation —</option>
+                <option value="vitamin|Vitamin Optimization Consultation|149">Vitamin Optimization Consultation — $149</option>
+                <option value="creatine|Creatine &amp; Performance Consultation|129">Creatine &amp; Performance Consultation — $129</option>
+                <option value="stack|Supplement Stack Review|179">Supplement Stack Review — $179</option>
+                <option value="nutrition|Nutritional Strategy Session|199">Nutritional Strategy Session — $199</option>
+                <option value="wellness|Wellness Assessment &amp; Plan|249">Wellness Assessment &amp; Plan — $249</option>
+                <option value="coaching|Monthly Wellness Coaching|399">Monthly Wellness Coaching — $399/mo</option>
+              </select>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="form-section-title" style="margin-top:32px;"><i class="fa-solid fa-user"></i> Your Information</div>
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="full-name">Full Name <span class="required">*</span></label>
+                <input type="text" id="full-name" placeholder="Jane Smith" />
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" placeholder="jane@example.com" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" placeholder="+1 (555) 000-0000" />
+            </div>
+
+            <!-- Scheduling -->
+            <div class="form-section-title" style="margin-top:32px;"><i class="fa-solid fa-clock"></i> Scheduling Preferences</div>
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="pref-date">Preferred Date <span class="required">*</span></label>
+                <input type="date" id="pref-date" />
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label for="pref-time">Preferred Time <span class="required">*</span></label>
+                <select id="pref-time">
+                  <option value="" disabled selected>Select time window</option>
+                  <option value="morning">Morning (9:00 AM – 12:00 PM)</option>
+                  <option value="afternoon">Afternoon (12:00 PM – 5:00 PM)</option>
+                  <option value="evening">Evening (5:00 PM – 8:00 PM)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="notes">Special Notes / Goals</label>
+              <textarea id="notes" placeholder="Tell us about your current health goals, concerns, or anything you'd like to focus on during your consultation..."></textarea>
+            </div>
+
+            <!-- Payment -->
+            <div class="payment-section">
+              <div class="form-section-title"><i class="fa-solid fa-lock"></i> Payment Information</div>
+              <div class="form-group">
+                <label for="card-number">Card Number <span class="required">*</span></label>
+                <div class="card-input-wrap">
+                  <input type="text" id="card-number" placeholder="1234  5678  9012  3456" maxlength="19" oninput="formatCardNumber(this)" />
+                  <div class="card-brands">
+                    <div class="card-brand visa">VISA</div>
+                    <div class="card-brand mc">MC</div>
+                    <div class="card-brand amex">AMEX</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="expiry">Expiry Date <span class="required">*</span></label>
+                  <input type="text" id="expiry" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)" />
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="cvv">CVV <span class="required">*</span></label>
+                  <input type="text" id="cvv" placeholder="123" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:20px;">
+                <label for="cardholder">Cardholder Name <span class="required">*</span></label>
+                <input type="text" id="cardholder" placeholder="Jane Smith" />
+              </div>
+
+              <button class="btn-complete" id="complete-btn" onclick="handleBooking()">
+                <i class="fa-solid fa-lock"></i>
+                <span id="btn-text">Complete Booking — Select a Service</span>
+              </button>
+
+              <div class="security-badges">
+                <div class="security-badge"><i class="fa-solid fa-lock"></i> 256-bit SSL Encrypted</div>
+                <div class="security-badge"><i class="fa-solid fa-shield-halved"></i> PCI DSS Compliant</div>
+                <div class="security-badge"><i class="fa-solid fa-rotate-left"></i> 24-hr Cancellation</div>
+              </div>
+              <p class="fine-print">Your card will be charged upon booking confirmation. Cancel or reschedule up to 24 hours before your session at no charge.</p>
             </div>
           </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-content">
-              <h4>Connect Your Account</h4>
-              <p>Link your business bank account and configure your billing preferences, invoicing templates, and client settings.</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-content">
-              <h4>Start Billing Clients</h4>
-              <p>Send invoices, set up recurring charges, and collect payments — all from one clean dashboard.</p>
+
+          <!-- Success Message -->
+          <div class="success-msg" id="success-msg">
+            <div class="success-icon">✅</div>
+            <h3>Booking Confirmed!</h3>
+            <p>Thank you for booking with PurifiedPay Consulting. Check your email for your booking confirmation and scheduling details.<br><br>Your certified consultant will reach out within 24 hours to confirm your appointment.</p>
+            <div style="margin-top:24px;padding:16px;background:rgba(16,185,129,0.1);border-radius:10px;">
+              <p style="font-size:0.85rem;color:#065f46;"><strong>📧 Confirmation sent to:</strong> <span id="confirm-email">—</span></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="how-visual">
-        <h3>Built for professionals who can't afford payment friction.</h3>
-        <p>Every feature is designed around the real-world needs of licensed practitioners and wellness consultation businesses.</p>
-        <div class="stat-row">
-          <div class="stat"><h4>100%</h4><p>B2B focused</p></div>
-          <div class="stat"><h4>24/7</h4><p>Payment uptime</p></div>
-          <div class="stat"><h4>Secure</h4><p>Bank-grade encryption</p></div>
+
+      <!-- ORDER SUMMARY -->
+      <div>
+        <div class="order-summary-box">
+          <h3><i class="fa-solid fa-receipt" style="color:#00B4A6;margin-right:8px;"></i>Order Summary</h3>
+          <div class="order-service-name" id="summary-name">No service selected</div>
+          <div class="order-service-desc" id="summary-desc">Select a consultation from the dropdown to see your order details.</div>
+          <div class="order-line">
+            <span class="label">Consultation Fee</span>
+            <span class="value" id="summary-fee">—</span>
+          </div>
+          <div class="order-line">
+            <span class="label">Booking Type</span>
+            <span class="value" id="summary-type">One-time</span>
+          </div>
+          <div class="order-line">
+            <span class="label">Processing Fee</span>
+            <span class="value">$0.00</span>
+          </div>
+          <div class="order-total">
+            <span class="label">Total Due Today</span>
+            <span class="value" id="summary-total">$0.00</span>
+          </div>
+          <div class="secure-badge-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <p><strong>Secure Checkout</strong><br>Your payment info is encrypted and never stored on our servers.</p>
+          </div>
+          <div style="margin-top:20px;padding:14px 16px;background:#f7f9fc;border-radius:10px;">
+            <p style="font-size:0.8rem;color:#4a5568;line-height:1.6;">
+              <i class="fa-solid fa-rotate-left" style="color:#00B4A6;margin-right:6px;"></i>
+              <strong>Free Cancellation</strong> up to 24 hours before your session.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOR PROFESSIONALS -->
-  <section class="for-pros" id="professionals">
-    <div class="for-pros-inner">
-      <div class="section-label">Who It's For</div>
-      <h2 class="section-title">Built for Licensed Practitioners</h2>
-      <p class="section-sub">PurifiedPay is designed for licensed practitioners, wellness consultants, and B2B health services. We keep your billing clean, compliant, and professional.</p>
-      <div class="pros-grid">
-        <div class="pro-badge">
-          <i class="fa-solid fa-user-doctor"></i>
-          <span>Licensed Practitioners</span>
+  <!-- ═══════════ ABOUT ═══════════ -->
+  <section id="about">
+    <div class="about-inner">
+      <div class="about-layout">
+        <div>
+          <div class="section-label">Who We Are</div>
+          <h2 class="section-title">About PurifiedPay Consulting</h2>
+          <p style="margin-bottom:20px;">PurifiedPay Consulting is a premier health and wellness advisory firm connecting individuals with certified nutrition and supplementation experts. Founded by a team of registered dietitians and sports nutrition specialists, we deliver evidence-based, personalized guidance to help you achieve lasting wellness outcomes.</p>
+          <p>Our consultants hold certifications from leading institutions including the National Academy of Sports Medicine (NASM), Precision Nutrition, and the American Council on Exercise (ACE). Every recommendation we make is grounded in peer-reviewed research and tailored to your individual biology and goals.</p>
+          <ul class="about-bullets">
+            <li><i class="fa-solid fa-check-circle"></i> All consultants are certified and background-verified</li>
+            <li><i class="fa-solid fa-check-circle"></i> Evidence-based protocols backed by current research</li>
+            <li><i class="fa-solid fa-check-circle"></i> Personalized plans — no one-size-fits-all recommendations</li>
+            <li><i class="fa-solid fa-check-circle"></i> Full confidentiality and HIPAA-aligned data practices</li>
+          </ul>
         </div>
-        <div class="pro-badge">
-          <i class="fa-solid fa-comments"></i>
-          <span>Wellness Consultants</span>
-        </div>
-        <div class="pro-badge">
-          <i class="fa-solid fa-building-columns"></i>
-          <span>Health Clinics</span>
-        </div>
-        <div class="pro-badge">
-          <i class="fa-solid fa-briefcase-medical"></i>
-          <span>B2B Health Services</span>
+        <div>
+          <div class="about-stats">
+            <div class="stat-card">
+              <h4>500+</h4>
+              <p>Clients Served</p>
+            </div>
+            <div class="stat-card">
+              <h4>98%</h4>
+              <p>Satisfaction Rate</p>
+            </div>
+            <div class="stat-card">
+              <h4>100%</h4>
+              <p>Certified Consultants</p>
+            </div>
+          </div>
+          <div style="background:rgba(0,180,166,0.08);border:1px solid rgba(0,180,166,0.2);border-radius:16px;padding:28px;margin-top:28px;">
+            <p style="color:rgba(255,255,255,0.85);font-size:0.95rem;line-height:1.7;font-style:italic;">"Working with PurifiedPay Consulting completely transformed my approach to supplementation. My energy levels and recovery have never been better."</p>
+            <p style="color:#00B4A6;font-size:0.82rem;font-weight:700;margin-top:14px;">— Sarah M., Verified Client</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer id="contact">
-    <div class="footer-logo">Purified<span>Pay</span></div>
-    <p>© 2026 PurifiedPay. All rights reserved. &nbsp;|&nbsp; <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a></p>
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">Purified<span>Pay</span></a>
+        <p>Certified health &amp; wellness consulting services. Evidence-based guidance for vitamins, supplements, and nutritional strategies.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">Vitamin Optimization</a></li>
+          <li><a href="#services">Performance Consulting</a></li>
+          <li><a href="#services">Supplement Stack Review</a></li>
+          <li><a href="#services">Monthly Coaching</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#checkout">Book a Consultation</a></li>
+          <li><a href="mailto:info@purifiedpay.com">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 PurifiedPay Consulting. All rights reserved. &nbsp;|&nbsp; <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a></p>
+      <div style="display:flex;gap:16px;align-items:center;">
+        <div style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.3);font-size:0.78rem;">
+          <i class="fa-solid fa-lock" style="color:#00B4A6;"></i> SSL Secured
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.3);font-size:0.78rem;">
+          <i class="fa-solid fa-shield-halved" style="color:#00B4A6;"></i> PCI Compliant
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <script>
+    // ── Service data ──
+    const serviceData = {
+      vitamin:   { name: 'Vitamin Optimization Consultation', price: 149, type: 'One-time consultation', desc: 'Personalized vitamin & supplement review session.' },
+      creatine:  { name: 'Creatine & Performance Consultation', price: 129, type: 'One-time consultation', desc: 'Targeted performance supplementation guidance.' },
+      stack:     { name: 'Supplement Stack Review', price: 179, type: 'One-time consultation', desc: 'Full audit and optimization of your supplement stack.' },
+      nutrition: { name: 'Nutritional Strategy Session', price: 199, type: 'One-time consultation', desc: 'Evidence-based macro and micronutrient planning.' },
+      wellness:  { name: 'Wellness Assessment & Plan', price: 249, type: 'One-time consultation', desc: '30-day personalized wellness action plan.' },
+      coaching:  { name: 'Monthly Wellness Coaching', price: 399, type: 'Monthly subscription', desc: 'Ongoing weekly check-ins and protocol support.' }
+    };
+
+    let currentService = null;
+
+    function selectService(key) {
+      currentService = key;
+      // Find and set the dropdown
+      const select = document.getElementById('service-select');
+      for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].value.startsWith(key)) {
+          select.selectedIndex = i;
+          break;
+        }
+      }
+      updateOrderSummary();
+    }
+
+    function updateOrderSummary() {
+      const select = document.getElementById('service-select');
+      const val = select.value;
+      if (!val) return;
+      const parts = val.split('|');
+      const key = parts[0];
+      const svc = serviceData[key];
+      if (!svc) return;
+      currentService = key;
+      document.getElementById('summary-name').textContent = svc.name;
+      document.getElementById('summary-desc').textContent = svc.desc;
+      document.getElementById('summary-fee').textContent = '$' + svc.price + '.00';
+      document.getElementById('summary-type').textContent = svc.type;
+      document.getElementById('summary-total').textContent = '$' + svc.price + '.00';
+      document.getElementById('btn-text').textContent = 'Complete Booking — $' + svc.price;
+    }
+
+    function formatCardNumber(input) {
+      let v = input.value.replace(/\D/g, '');
+      let formatted = v.match(/.{1,4}/g)?.join('  ') || '';
+      input.value = formatted;
+    }
+
+    function formatExpiry(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2,4);
+      input.value = v;
+    }
+
+    function handleBooking() {
+      const service = document.getElementById('service-select').value;
+      const name    = document.getElementById('full-name').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const date    = document.getElementById('pref-date').value;
+      const time    = document.getElementById('pref-time').value;
+      const card    = document.getElementById('card-number').value.replace(/\s/g,'');
+      const expiry  = document.getElementById('expiry').value;
+      const cvv     = document.getElementById('cvv').value;
+      const holder  = document.getElementById('cardholder').value.trim();
+
+      if (!service) { alert('Please select a consultation service.'); return; }
+      if (!name)    { alert('Please enter your full name.'); return; }
+      if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+      if (!date)    { alert('Please select a preferred date.'); return; }
+      if (!time)    { alert('Please select a preferred time window.'); return; }
+      if (card.length < 15) { alert('Please enter a valid card number.'); return; }
+      if (!expiry || expiry.length < 4) { alert('Please enter a valid expiry date.'); return; }
+      if (!cvv || cvv.length < 3) { alert('Please enter your CVV.'); return; }
+      if (!holder) { alert('Please enter the cardholder name.'); return; }
+
+      // Show success
+      document.getElementById('confirm-email').textContent = email;
+      document.getElementById('checkout-form-content').style.display = 'none';
+      const msg = document.getElementById('success-msg');
+      msg.style.display = 'block';
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Set min date for date picker
+    document.addEventListener('DOMContentLoaded', () => {
+      const d = new Date();
+      d.setDate(d.getDate() + 1);
+      document.getElementById('pref-date').min = d.toISOString().split('T')[0];
+    });
+  </script>
 </body>
 </html>
