@@ -171,23 +171,44 @@ document.getElementById('order-total').textContent = '$' + amount.toFixed(2);
 document.getElementById('btn-amount').textContent = '$' + amount.toFixed(2);
 if (name) document.getElementById('cardholder-name').value = name;
 
-// Init Square
-let squareCard;
+// Init Square with retry
+let squareCard = null;
+let initAttempts = 0;
+
 async function initSquare() {
-  const payments = Square.payments(APP_ID, LOCATION_ID);
-  squareCard = await payments.card({
-    style: {
-      '.input-container': { borderColor: '#2a3f55', borderRadius: '8px' },
-      '.input-container.is-focus': { borderColor: '#00b4d8' },
-      '.input-container.is-error': { borderColor: '#f87171' },
-      input: { color: '#e2eaf0', fontSize: '15px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
-      'input::placeholder': { color: '#4a6080' }
+  initAttempts++;
+  if (!window.Square) {
+    if (initAttempts < 10) {
+      setTimeout(initSquare, 500);
+    } else {
+      document.getElementById('card-container').innerHTML = '<p style="color:#f87171;font-size:13px;padding:10px 0;">Payment form failed to load. Please refresh the page.</p>';
     }
-  });
-  await squareCard.attach('#card-container');
+    return;
+  }
+
+  try {
+    const payments = Square.payments(APP_ID, LOCATION_ID);
+    squareCard = await payments.card({
+      style: {
+        '.input-container': { borderColor: '#2a3f55', borderRadius: '8px' },
+        '.input-container.is-focus': { borderColor: '#00b4d8' },
+        '.input-container.is-error': { borderColor: '#f87171' },
+        input: { color: '#e2eaf0', fontSize: '16px', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
+        'input::placeholder': { color: '#4a6080' }
+      }
+    });
+    await squareCard.attach('#card-container');
+    console.log('Square card initialized successfully');
+  } catch(err) {
+    console.error('Square init failed:', err);
+    document.getElementById('card-container').innerHTML = '<p style="color:#f87171;font-size:13px;padding:10px 0;">Card form error: ' + err.message + '</p>';
+  }
 }
 
-document.addEventListener('DOMContentLoaded', initSquare);
+// Wait for Square SDK then init
+window.addEventListener('load', function() {
+  setTimeout(initSquare, 300);
+});
 
 async function handlePay() {
   document.getElementById('error-msg').textContent = '';
@@ -195,6 +216,9 @@ async function handlePay() {
   document.getElementById('pay-btn').disabled = true;
 
   try {
+    if (!squareCard) {
+      throw new Error('Card form not ready. Please refresh and try again.');
+    }
     const result = await squareCard.tokenize();
     if (result.status !== 'OK') {
       throw new Error((result.errors || []).map(e => e.message).join(' '));
