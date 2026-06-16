@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancellation Policy — PurifiedPay</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1b2a;
+    --navy2: #1b2e45;
+    --teal: #00b4d8;
+    --teal2: #0077b6;
+    --white: #ffffff;
+    --gray: #8899aa;
+    --border: #2a3f55;
+    --text: #e2eaf0;
+    --success: #22c55e;
+    --warning: #f59e0b;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--navy2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-size: 20px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
+  .logo span { color: var(--white); }
+  nav ul { list-style: none; display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+  nav ul a { color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  nav ul a:hover { color: var(--teal); }
+  nav ul a.active { color: var(--teal); }
+
+  /* PAGE CONTENT */
+  .page-wrap {
+    max-width: 780px;
+    margin: 60px auto 80px;
+    padding: 0 24px;
+    flex: 1;
+  }
+
+  .page-badge {
+    display: inline-block;
+    background: rgba(0,180,216,0.15);
+    color: var(--teal);
+    border: 1px solid rgba(0,180,216,0.3);
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+
+  .page-meta {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* SUMMARY TILES */
+  .policy-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .policy-tile {
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  .policy-tile .tile-icon { font-size: 28px; margin-bottom: 10px; }
+  .policy-tile .tile-label { font-size: 12px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .policy-tile .tile-value { font-size: 16px; font-weight: 700; color: var(--text); }
+  .policy-tile .tile-value.good { color: var(--success); }
+  .policy-tile .tile-value.warn { color: var(--warning); }
+
+  /* CONTENT CARDS */
+  .content-card {
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .content-card { padding: 24px 20px; }
+  }
+
+  .content-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .content-card h2 .icon { font-size: 20px; }
+
+  .content-card p {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+  .content-card p:last-child { margin-bottom: 0; }
+
+  .content-card ul {
+    list-style: none;
+    margin: 10px 0 14px;
+    padding: 0;
+  }
+  .content-card ul li {
+    font-size: 15px;
+    color: var(--text);
+    padding: 6px 0 6px 24px;
+    position: relative;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(42,63,85,0.5);
+  }
+  .content-card ul li:last-child { border-bottom: none; }
+  .content-card ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    margin: 16px 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline-item:last-child { border-bottom: none; }
+
+  .timeline-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .timeline-dot.green { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); }
+  .timeline-dot.red { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); }
+  .timeline-dot.yellow { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); }
+
+  .timeline-content { flex: 1; }
+  .timeline-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .timeline-title.good { color: var(--success); }
+  .timeline-title.bad { color: #f87171; }
+  .timeline-title.warn { color: var(--warning); }
+  .timeline-desc { font-size: 14px; color: var(--gray); line-height: 1.55; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(0,180,216,0.06);
+    border: 1px solid rgba(0,180,216,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .steps { counter-reset: steps; margin: 14px 0; }
+  .step-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    background: rgba(0,180,216,0.12);
+    border: 1px solid rgba(0,180,216,0.25);
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 800;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .step-desc { font-size: 14px; color: var(--gray); line-height: 1.55; }
+
+  .contact-cta {
+    background: rgba(0,180,216,0.07);
+    border: 1px solid rgba(0,180,216,0.2);
+    border-radius: 12px;
+    padding: 22px 26px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .contact-cta-icon { font-size: 32px; flex-shrink: 0; }
+  .contact-cta-text .label { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .contact-cta-text .value { font-size: 16px; font-weight: 700; }
+  .contact-cta-text .value a { color: var(--teal); text-decoration: none; }
+  .contact-cta-text .value a:hover { text-decoration: underline; }
+  .contact-cta-text .sub { font-size: 13px; color: var(--gray); margin-top: 3px; }
+
+  /* FOOTER */
+  footer { background: var(--navy2); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; margin-top: auto; }
+  .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 20px; flex-wrap: wrap; }
+  .footer-links a { color: var(--gray); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-copy { font-size: 13px; color: var(--gray); }
+  .footer-copy strong { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Purified<span>Pay</span></a>
+  <ul>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#how-it-works">How It Works</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="cancellation.html" class="active">Cancellation</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE BODY -->
+<main class="page-wrap">
+  <div class="page-badge">Policy</div>
+  <h1 class="page-title">Cancellation Policy</h1>
+  <p class="page-meta">
+    Effective Date: January 1, 2025 · Last Updated: June 2025<br>
+    Questions? <a href="mailto:info@purifiedpay.com" style="color:var(--teal);">info@purifiedpay.com</a>
+  </p>
+
+  <!-- Quick Summary Tiles -->
+  <div class="policy-summary">
+    <div class="policy-tile">
+      <div class="tile-icon">⏰</div>
+      <div class="tile-label">Cancellation Window</div>
+      <div class="tile-value good">24 Hours</div>
+    </div>
+    <div class="policy-tile">
+      <div class="tile-icon">💰</div>
+      <div class="tile-label">Full Refund If Cancelled By</div>
+      <div class="tile-value good">24 hrs before session</div>
+    </div>
+    <div class="policy-tile">
+      <div class="tile-icon">📧</div>
+      <div class="tile-label">How to Cancel</div>
+      <div class="tile-value">Email us</div>
+    </div>
+    <div class="policy-tile">
+      <div class="tile-icon">✅</div>
+      <div class="tile-label">Rescheduling</div>
+      <div class="tile-value good">Available</div>
+    </div>
+  </div>
+
+  <!-- Refund Timeline -->
+  <div class="content-card">
+    <h2><span class="icon">📋</span> Refund Schedule</h2>
+    <p>Your ability to receive a refund depends on how far in advance you cancel your scheduled advisory session.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot green">✅</div>
+        <div class="timeline-content">
+          <div class="timeline-title good">More than 24 hours before session — Full Refund</div>
+          <div class="timeline-desc">If you cancel your advisory session more than 24 hours before the scheduled start time, you are entitled to a full refund of the engagement fee. No questions asked. Refunds are processed within 5–10 business days to your original payment method.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot yellow">⚠️</div>
+        <div class="timeline-content">
+          <div class="timeline-title warn">Within 24 hours of session — No Refund / Credit Option</div>
+          <div class="timeline-desc">Cancellations made within 24 hours of the scheduled session start time are not eligible for a cash refund. However, we will issue a credit toward a future advisory engagement, valid for 90 days. This credit is non-transferable.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot red">❌</div>
+        <div class="timeline-content">
+          <div class="timeline-title bad">After service has been rendered — No Refund</div>
+          <div class="timeline-desc">Once an advisory session has been completed and/or advisory materials have been delivered, the engagement is considered fulfilled and no refund will be issued. This includes partial sessions where the advisor has begun delivering services.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Cancel -->
+  <div class="content-card">
+    <h2><span class="icon">📨</span> How to Cancel</h2>
+    <p>To cancel your advisory session, please follow these steps:</p>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Email Your Cancellation Request</div>
+          <div class="step-desc">Send an email to <a href="mailto:info@purifiedpay.com" style="color:var(--teal);">info@purifiedpay.com</a> with the subject line: <strong>"Cancellation Request — [Your Name]"</strong></div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Include Your Booking Details</div>
+          <div class="step-desc">In your email, include: your full name, email address used at booking, the advisory service you purchased, and your scheduled session date and time.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Receive Confirmation</div>
+          <div class="step-desc">Our team will acknowledge your cancellation request within 1 business day and confirm your refund eligibility based on the timing of your request.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Refund Processing</div>
+          <div class="step-desc">If eligible, your refund will be returned to your original payment method within 5–10 business days. Processing times may vary depending on your card issuer.</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-cta">
+      <div class="contact-cta-icon">📧</div>
+      <div class="contact-cta-text">
+        <div class="label">Cancellation Requests</div>
+        <div class="value"><a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a></div>
+        <div class="sub">Response within 1 business day · Please include your booking details</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rescheduling -->
+  <div class="content-card">
+    <h2><span class="icon">🔄</span> Rescheduling</h2>
+    <p>We understand that schedules change. Instead of cancelling, you may request to reschedule your advisory session at no charge, provided the rescheduling request is made at least 24 hours before your scheduled session.</p>
+    <ul>
+      <li>Rescheduled sessions must occur within 60 days of the original booking date.</li>
+      <li>Each engagement may be rescheduled up to two (2) times without penalty.</li>
+      <li>Rescheduling requests made less than 24 hours before a session are treated as late cancellations.</li>
+      <li>To reschedule, email <a href="mailto:info@purifiedpay.com" style="color:var(--teal);">info@purifiedpay.com</a> with your preferred new date and time.</li>
+    </ul>
+  </div>
+
+  <!-- No-Shows -->
+  <div class="content-card">
+    <h2><span class="icon">🚫</span> No-Shows</h2>
+    <p>A "no-show" occurs when a Client fails to attend a scheduled advisory session without prior notice. No-shows are treated as sessions rendered and are not eligible for refunds or session credits.</p>
+    <p>If you are unable to attend your session, please contact us as early as possible to reschedule. We value your investment and want to make sure you receive the full benefit of your engagement.</p>
+    <div class="highlight-box">
+      <strong>Tip:</strong> Set a calendar reminder for your session and save our contact email. If anything changes, we're here to help you find a solution.
+    </div>
+  </div>
+
+  <!-- Exceptions -->
+  <div class="content-card">
+    <h2><span class="icon">⚖️</span> Exceptions &amp; Special Circumstances</h2>
+    <p>PurifiedPay may, at its sole discretion, make exceptions to this policy in cases of documented medical emergencies, natural disasters, or other extraordinary circumstances beyond the Client's control.</p>
+    <p>To request a policy exception, please email <a href="mailto:info@purifiedpay.com" style="color:var(--teal);">info@purifiedpay.com</a> and provide relevant documentation. All exception requests are reviewed on a case-by-case basis and are not guaranteed.</p>
+    <p>In the event PurifiedPay cancels or is unable to deliver a scheduled advisory session, clients will receive a full refund or complimentary rescheduling at their preference.</p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="logo" style="display:inline-block;margin-bottom:16px;">Purified<span>Pay</span></a>
+  <div class="footer-links">
+    <a href="terms.html">Terms of Service</a>
+    <a href="cancellation.html">Cancellation Policy</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a>
+  </div>
+  <div class="footer-copy">© 2025 <strong>PurifiedPay LLC</strong> · Professional Advisory Services · Sheridan, WY</div>
+</footer>
+
+</body>
+</html>
