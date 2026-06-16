@@ -28,6 +28,7 @@
     min-height: 100vh;
   }
 
+  /* NAV */
   nav {
     background: var(--navy2);
     border-bottom: 1px solid var(--border);
@@ -40,14 +41,15 @@
     top: 0;
     z-index: 100;
   }
-  .logo { font-size: 20px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; }
+  .logo { font-size: 20px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
   .logo span { color: var(--white); }
-  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav ul { list-style: none; display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
   nav ul a { color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
   nav ul a:hover { color: var(--teal); }
   .nav-cta { background: var(--teal); color: var(--navy) !important; padding: 8px 18px; border-radius: 6px; font-weight: 600 !important; }
-  .nav-cta:hover { background: var(--teal2); color: white !important; }
+  .nav-cta:hover { background: var(--teal2) !important; color: white !important; }
 
+  /* HERO */
   .hero {
     text-align: center;
     padding: 80px 24px 60px;
@@ -75,6 +77,7 @@
   .btn-secondary { background: transparent; color: var(--text); padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s; text-decoration: none; display: inline-block; }
   .btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
 
+  /* TRUST BAR */
   .trust-bar {
     display: flex; justify-content: center; gap: 40px; padding: 20px 24px;
     border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -83,6 +86,7 @@
   .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray); font-weight: 500; }
   .trust-item svg { color: var(--teal); }
 
+  /* SERVICES */
   #services { max-width: 1100px; margin: 70px auto; padding: 0 24px; }
   .section-header { text-align: center; margin-bottom: 48px; }
   .section-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
@@ -97,8 +101,6 @@
   .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--teal); opacity: 0; transition: opacity 0.2s; }
   .service-card:hover { border-color: var(--teal); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,180,216,0.15); }
   .service-card:hover::before { opacity: 1; }
-  .service-card.selected { border-color: var(--teal); background: rgba(0,180,216,0.08); }
-  .service-card.selected::before { opacity: 1; }
   .card-icon { width: 48px; height: 48px; background: rgba(0,180,216,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 24px; }
   .card-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
   .card-desc { font-size: 14px; color: var(--gray); line-height: 1.5; margin-bottom: 16px; }
@@ -109,68 +111,70 @@
   .card-includes ul { list-style: none; }
   .card-includes li { font-size: 13px; color: var(--gray); padding: 3px 0; padding-left: 18px; position: relative; }
   .card-includes li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
-  .select-badge { position: absolute; top: 16px; right: 16px; background: var(--teal); color: var(--navy); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; opacity: 0; transition: opacity 0.2s; }
-  .service-card.selected .select-badge { opacity: 1; }
+  .card-cta { margin-top: 20px; width: 100%; background: rgba(0,180,216,0.1); color: var(--teal); border: 1px solid rgba(0,180,216,0.3); border-radius: 8px; padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .card-cta:hover { background: var(--teal); color: var(--navy); }
 
-  #checkout-section { display: none; max-width: 900px; margin: 0 auto 80px; padding: 0 24px; }
-  #checkout-section.visible { display: block; }
-  .checkout-layout { display: grid; grid-template-columns: 1fr 380px; gap: 28px; align-items: start; }
-  @media (max-width: 720px) { .checkout-layout { grid-template-columns: 1fr; } .order-summary { order: -1; } }
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.92);
+    z-index: 500; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--navy2); border: 1px solid var(--border); border-radius: 20px;
+    padding: 36px 32px; width: 100%; max-width: 480px; position: relative;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border); color: var(--gray); width: 32px; height: 32px;
+    border-radius: 50%; cursor: pointer; font-size: 18px; display: flex;
+    align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .modal-close:hover { background: rgba(248,113,113,0.15); color: #f87171; border-color: #f87171; }
+  .modal-service-badge {
+    background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 24px;
+  }
+  .modal-service-name { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .modal-service-price { font-size: 24px; font-weight: 800; color: var(--teal); }
+  .modal-service-price span { font-size: 14px; color: var(--gray); font-weight: 400; }
+  .modal h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .modal-subtitle { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
+  .modal-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 
-  .checkout-form-panel { background: var(--navy2); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
-  .checkout-form-panel h3 { font-size: 20px; font-weight: 700; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-  .form-section { margin-bottom: 28px; }
-  .form-section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--teal); margin-bottom: 14px; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-  .form-group label { font-size: 13px; font-weight: 600; color: var(--gray); }
-  .form-group input, .form-group select { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 15px; color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; }
-  .form-group input:focus, .form-group select:focus { border-color: var(--teal); }
-  .form-group select option { background: var(--navy2); }
-  .stripe-field { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 13px 14px; transition: border-color 0.2s; }
-  .stripe-field.focused { border-color: var(--teal); }
-  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .sq-field-label { font-size: 13px; font-weight: 600; color: var(--gray); margin-bottom: 8px; display: block; }
+  #sq-card-container {
+    background: var(--navy); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; min-height: 54px; transition: border-color 0.2s; margin-bottom: 8px;
+  }
+  #sq-card-container.focused { border-color: var(--teal); }
 
-  .submit-btn { width: 100%; background: var(--teal); color: var(--navy); border: none; border-radius: 10px; padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-  .submit-btn:hover { background: #0096b4; transform: translateY(-1px); }
-  .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-  .secure-note { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 12px; color: var(--gray); }
+  #modal-error { color: #f87171; font-size: 13px; min-height: 20px; margin-bottom: 8px; display: none; }
 
-  .order-summary { background: var(--navy2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; position: sticky; top: 80px; }
-  .order-summary h3 { font-size: 16px; font-weight: 700; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-  .summary-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-size: 14px; }
-  .summary-item-name { color: var(--text); font-weight: 500; }
-  .summary-item-price { color: var(--teal); font-weight: 700; }
-  .summary-divider { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
-  .summary-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-top: 10px; }
-  .summary-total .total-price { color: var(--teal); }
-  .summary-badge { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 18px; font-size: 13px; color: #86efac; display: flex; align-items: center; gap: 8px; }
-  .service-selector-summary { background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 8px; padding: 14px; margin-bottom: 16px; font-size: 14px; }
-  .service-selector-summary strong { color: var(--teal); }
+  .modal-pay-btn {
+    width: 100%; background: var(--teal); color: var(--navy); border: none; border-radius: 10px;
+    padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px;
+  }
+  .modal-pay-btn:hover:not(:disabled) { background: #0096b4; transform: translateY(-1px); }
+  .modal-pay-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+  .modal-secure { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: 12px; color: var(--gray); }
+  .modal-terms { font-size: 12px; color: var(--gray); margin-top: 14px; line-height: 1.6; text-align: center; }
+  .modal-terms a { color: var(--teal); text-decoration: none; }
+  .modal-terms a:hover { text-decoration: underline; }
 
-  #confirmation-section { display: none; max-width: 600px; margin: 80px auto; padding: 0 24px; text-align: center; }
-  #confirmation-section.visible { display: block; }
-  .confirm-icon { width: 80px; height: 80px; background: rgba(34,197,94,0.15); border: 2px solid var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 28px; }
-  .confirm-card { background: var(--navy2); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; }
-  .confirm-card h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
-  .confirm-card p { color: var(--gray); font-size: 16px; margin-bottom: 24px; line-height: 1.6; }
-  .confirm-ref { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 14px 20px; font-size: 14px; color: var(--gray); margin-bottom: 28px; }
-  .confirm-ref strong { color: var(--teal); font-size: 16px; display: block; margin-bottom: 4px; }
-  .confirm-details { text-align: left; margin: 20px 0; }
-  .confirm-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
-  .confirm-row:last-child { border-bottom: none; }
-  .confirm-row span:first-child { color: var(--gray); }
-  .confirm-row span:last-child { font-weight: 600; }
-
-  .processing-overlay { display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.92); z-index: 200; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+  /* PROCESSING OVERLAY */
+  .processing-overlay { display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.92); z-index: 600; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
   .processing-overlay.active { display: flex; }
   .spinner { width: 52px; height: 52px; border: 4px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .processing-text { font-size: 18px; font-weight: 600; color: var(--text); }
 
-  .scroll-cta { text-align: center; padding: 40px 24px 60px; }
-  .scroll-cta p { color: var(--gray); font-size: 15px; margin-bottom: 16px; }
+  /* HOW IT WORKS */
+  #how-it-works { max-width: 900px; margin: 0 auto 80px; padding: 0 24px; }
 
+  /* FOOTER */
   footer { background: var(--navy2); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; }
   .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 20px; flex-wrap: wrap; }
   .footer-links a { color: var(--gray); text-decoration: none; font-size: 13px; transition: color 0.2s; }
@@ -183,11 +187,13 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Purified<span>Pay</span></div>
+  <a href="/" class="logo">Purified<span>Pay</span></a>
   <ul>
     <li><a href="#services">Services</a></li>
     <li><a href="#how-it-works">How It Works</a></li>
-    <li><a href="#checkout-section" class="nav-cta" id="nav-book-btn" style="display:none">Engage an Advisor</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="cancellation.html">Cancellation</a></li>
   </ul>
 </nav>
 
@@ -236,8 +242,7 @@
 
   <div class="services-grid">
 
-    <div class="service-card" data-service="Micronutrient Strategy Advisory" data-price="149" onclick="selectService(this)">
-      <div class="select-badge">Selected</div>
+    <div class="service-card" data-service="Micronutrient Strategy Advisory" data-price="149">
       <div class="card-icon">📋</div>
       <div class="card-title">Micronutrient Strategy Advisory</div>
       <div class="card-desc">A structured advisory session focused on optimizing daily nutritional inputs. Advisors provide evidence-based frameworks and actionable protocols tailored to your goals.</div>
@@ -250,10 +255,10 @@
           <li>Written follow-up report</li>
         </ul>
       </div>
+      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
     </div>
 
-    <div class="service-card" data-service="Performance Optimization Advisory" data-price="129" onclick="selectService(this)">
-      <div class="select-badge">Selected</div>
+    <div class="service-card" data-service="Performance Optimization Advisory" data-price="129">
       <div class="card-icon">📈</div>
       <div class="card-title">Performance Optimization Advisory</div>
       <div class="card-desc">Advisory focused on structured performance protocols for active individuals. Includes loading strategies, timing frameworks, and benchmarking guidance.</div>
@@ -266,10 +271,10 @@
           <li>Progress tracking template</li>
         </ul>
       </div>
+      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
     </div>
 
-    <div class="service-card" data-service="Supplement & Sourcing Advisory" data-price="119" onclick="selectService(this)">
-      <div class="select-badge">Selected</div>
+    <div class="service-card" data-service="Supplement &amp; Sourcing Advisory" data-price="119">
       <div class="card-icon">🔍</div>
       <div class="card-title">Supplement &amp; Sourcing Advisory</div>
       <div class="card-desc">Strategic guidance on product selection, vendor quality standards, and building an optimized personal or operational stack. Unbiased, evidence-based recommendations.</div>
@@ -282,10 +287,10 @@
           <li>Budget-optimized plan</li>
         </ul>
       </div>
+      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
     </div>
 
-    <div class="service-card" data-service="Endocrine & Hormonal Wellness Advisory" data-price="199" onclick="selectService(this)">
-      <div class="select-badge">Selected</div>
+    <div class="service-card" data-service="Endocrine &amp; Hormonal Wellness Advisory" data-price="199">
       <div class="card-icon">⚗️</div>
       <div class="card-title">Endocrine &amp; Hormonal Wellness Advisory</div>
       <div class="card-desc">A comprehensive advisory engagement covering lifestyle, nutritional, and foundational strategies that support endocrine balance and long-term vitality.</div>
@@ -298,10 +303,10 @@
           <li>30-day advisor check-in</li>
         </ul>
       </div>
+      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
     </div>
 
-    <div class="service-card" data-service="Metabolic Strategy Advisory" data-price="169" onclick="selectService(this)">
-      <div class="select-badge">Selected</div>
+    <div class="service-card" data-service="Metabolic Strategy Advisory" data-price="169">
       <div class="card-icon">⚙️</div>
       <div class="card-title">Metabolic Strategy Advisory</div>
       <div class="card-desc">Structured advisory for individuals seeking to optimize metabolic function, energy output, and body composition through evidence-based lifestyle and nutritional frameworks.</div>
@@ -314,10 +319,10 @@
           <li>2-week advisor check-ins</li>
         </ul>
       </div>
+      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
     </div>
 
-    <div class="service-card" data-service="Integrated Lifestyle & Nutrition Advisory" data-price="249" onclick="selectService(this)">
-      <div class="select-badge">Selected</div>
+    <div class="service-card" data-service="Integrated Lifestyle &amp; Nutrition Advisory" data-price="249">
       <div class="card-icon">🗂️</div>
       <div class="card-title">Integrated Lifestyle &amp; Nutrition Advisory</div>
       <div class="card-desc">Our most comprehensive engagement. A full-scope advisory session covering nutritional strategy, lifestyle alignment, and product optimization — fully tailored to your specific goals.</div>
@@ -330,18 +335,14 @@
           <li>3 follow-up advisor check-ins</li>
         </ul>
       </div>
+      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
     </div>
 
-  </div>
-
-  <div class="scroll-cta" id="scroll-cta" style="display:none;">
-    <p>You've selected <strong id="selected-name-cta" style="color:var(--teal)"></strong></p>
-    <button class="btn-primary" onclick="scrollToCheckout()">Continue to Checkout →</button>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="how-it-works" style="max-width:900px;margin:0 auto 80px;padding:0 24px;">
+<section id="how-it-works">
   <div class="section-header">
     <div class="section-label">Our Process</div>
     <h2>How It Works</h2>
@@ -370,323 +371,238 @@
   </div>
 </section>
 
-<!-- CHECKOUT SECTION -->
-<section id="checkout-section">
-  <div class="section-header" style="margin-bottom:32px;">
-    <div class="section-label">Secure Checkout</div>
-    <h2>Complete Your Engagement</h2>
-  </div>
-  <div class="checkout-layout">
-    <div class="checkout-form-panel">
-      <h3>📋 Engagement Details</h3>
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkout-modal" onclick="handleOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
 
-      <div class="form-section">
-        <div class="form-section-title">Contact Information</div>
-        <div class="form-row">
-          <div class="form-group"><label>First Name</label><input type="text" id="first-name" placeholder="Jane" /></div>
-          <div class="form-group"><label>Last Name</label><input type="text" id="last-name" placeholder="Smith" /></div>
-        </div>
-        <div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="jane@example.com" /></div>
-        <div class="form-group"><label>Phone Number</label><input type="tel" id="phone" placeholder="(555) 000-0000" /></div>
-      </div>
+    <h3 id="modal-title">Complete Your Booking</h3>
+    <p class="modal-subtitle">Powered by Square · 256-bit SSL encrypted</p>
 
-      <div class="form-section">
-        <div class="form-section-title">Engagement Details</div>
-        <div class="form-group">
-          <label>Advisory Service</label>
-          <select id="service-select" onchange="updateServiceFromDropdown(this)">
-            <option value="">— Select a service —</option>
-            <option value="Micronutrient Strategy Advisory|149">Micronutrient Strategy Advisory — $149</option>
-            <option value="Performance Optimization Advisory|129">Performance Optimization Advisory — $129</option>
-            <option value="Supplement & Sourcing Advisory|119">Supplement &amp; Sourcing Advisory — $119</option>
-            <option value="Endocrine & Hormonal Wellness Advisory|199">Endocrine &amp; Hormonal Wellness Advisory — $199</option>
-            <option value="Metabolic Strategy Advisory|169">Metabolic Strategy Advisory — $169</option>
-            <option value="Integrated Lifestyle & Nutrition Advisory|249">Integrated Lifestyle &amp; Nutrition Advisory — $249</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Preferred Date</label><input type="date" id="pref-date" /></div>
-          <div class="form-group">
-            <label>Preferred Time</label>
-            <select id="pref-time">
-              <option value="">Select time</option>
-              <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
-              <option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Session Format</label>
-          <select id="format"><option>Video Call (Zoom)</option><option>Phone Call</option></select>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section-title">Billing Address</div>
-        <div class="form-group"><label>Address</label><input type="text" id="address" placeholder="123 Main Street" /></div>
-        <div class="form-row">
-          <div class="form-group"><label>City</label><input type="text" id="city" placeholder="Los Angeles" /></div>
-          <div class="form-group">
-            <label>State</label>
-            <select id="state">
-              <option value="">State</option>
-              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
-              <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
-              <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
-              <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
-              <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
-              <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
-              <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
-              <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
-              <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
-              <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
-              <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
-              <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
-              <option>WI</option><option>WY</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group"><label>ZIP Code</label><input type="text" id="zip" placeholder="90210" maxlength="5" /></div>
-      </div>
-
-      <div class="form-section">
-        <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between;">Payment Information <span style="font-size:11px;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.2);padding:3px 10px;border-radius:20px;color:var(--teal);font-weight:600;">⬛ Powered by Square</span></div>
-        <div class="form-group" style="margin-top:14px;">
-          <label>Card Details</label>
-          <div id="card-container" style="background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:12px 14px;min-height:52px;transition:border-color 0.2s;"></div>
-        </div>
-      </div>
-
-      <div id="card-error" style="color:#f87171;font-size:14px;margin-bottom:12px;display:none;"></div>
-
-      <button class="submit-btn" onclick="handleSubmit()">
-        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        Complete Engagement
-      </button>
-      <div class="secure-note">
-        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-        256-bit SSL encrypted · Secured by Square
-      </div>
+    <div class="modal-service-badge">
+      <div class="modal-service-name" id="modal-service-name">Advisory Service</div>
+      <div class="modal-service-price" id="modal-service-price">$0 <span>/ engagement</span></div>
     </div>
 
-    <!-- ORDER SUMMARY -->
-    <div class="order-summary">
-      <h3>Engagement Summary</h3>
-      <div id="no-service-msg" style="color:var(--gray);font-size:14px;padding:12px 0;">Select a service above to see your summary.</div>
-      <div id="summary-content" style="display:none;">
-        <div class="service-selector-summary">
-          <strong id="summary-service-name">—</strong>
-          <div style="color:var(--gray);font-size:13px;margin-top:4px;" id="summary-service-desc">—</div>
-        </div>
-        <div class="summary-item"><span class="summary-item-name">Advisory Fee</span><span class="summary-item-price" id="summary-price">—</span></div>
-        <div class="summary-item"><span class="summary-item-name">Platform Fee</span><span class="summary-item-price">$0.00</span></div>
-        <hr class="summary-divider" />
-        <div class="summary-total"><span>Total</span><span class="total-price" id="summary-total">—</span></div>
-        <div class="summary-badge">✅ Instant confirmation sent to your email after booking</div>
-        <div style="margin-top:18px;font-size:12px;color:var(--gray);line-height:1.6;">
-          By completing your engagement you agree to our <a href="#" style="color:var(--teal)">Terms of Service</a> and <a href="#" style="color:var(--teal)">Cancellation Policy</a>. Sessions may be rescheduled up to 24 hours prior.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    <label class="sq-field-label">Card Details</label>
+    <div id="sq-card-container"></div>
 
-<!-- CONFIRMATION -->
-<section id="confirmation-section">
-  <div class="confirm-card">
-    <div class="confirm-icon">✅</div>
-    <h2>Engagement Confirmed!</h2>
-    <p>Thank you for choosing PurifiedPay Advisory Services. Your session has been booked and a confirmation has been sent to your email.</p>
-    <div class="confirm-ref"><strong id="confirm-ref-num">REF-PP-000000</strong>Engagement Reference Number</div>
-    <div class="confirm-details">
-      <div class="confirm-row"><span>Service</span><span id="confirm-service">—</span></div>
-      <div class="confirm-row"><span>Client Name</span><span id="confirm-name">—</span></div>
-      <div class="confirm-row"><span>Email</span><span id="confirm-email">—</span></div>
-      <div class="confirm-row"><span>Preferred Date</span><span id="confirm-date">—</span></div>
-      <div class="confirm-row"><span>Amount Charged</span><span id="confirm-amount" style="color:var(--teal);font-weight:700;">—</span></div>
+    <div id="modal-error"></div>
+
+    <button class="modal-pay-btn" id="modal-pay-btn" onclick="handlePayment()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      <span id="modal-pay-label">Pay $0.00</span>
+    </button>
+
+    <div class="modal-secure">
+      <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      256-bit SSL encrypted · Secured by Square
     </div>
-    <p style="margin-top:20px;font-size:14px;">Our team will reach out within 1 business day to confirm your appointment. Questions? <a href="mailto:info@purifiedpay.com" style="color:var(--teal)">info@purifiedpay.com</a></p>
-    <button class="btn-primary" style="margin-top:20px;width:100%;" onclick="resetAll()">Book Another Engagement</button>
+    <p class="modal-terms">
+      By completing your engagement you agree to our
+      <a href="terms.html">Terms of Service</a> and
+      <a href="cancellation.html">Cancellation Policy</a>.
+      Sessions may be rescheduled up to 24 hours prior.
+    </p>
   </div>
-</section>
+</div>
 
 <!-- PROCESSING OVERLAY -->
 <div class="processing-overlay" id="processing-overlay">
   <div class="spinner"></div>
-  <div class="processing-text">Processing your payment securely…</div>
+  <div class="processing-text" id="processing-text">Processing your payment securely…</div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="logo" style="margin-bottom:16px;">Purified<span>Pay</span></div>
+  <a href="/" class="logo" style="display:inline-block;margin-bottom:16px;">Purified<span>Pay</span></a>
   <div class="footer-links">
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms of Service</a>
-    <a href="#">Cancellation Policy</a>
+    <a href="terms.html">Terms of Service</a>
+    <a href="cancellation.html">Cancellation Policy</a>
+    <a href="contact.html">Contact Us</a>
     <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a>
   </div>
-  <div class="footer-copy">© 2025 <strong>PurifiedPay LLC</strong> · Professional Advisory Services</div>
+  <div class="footer-copy">© 2025 <strong>PurifiedPay LLC</strong> · Professional Advisory Services · Sheridan, WY</div>
 </footer>
 
 <script>
-const stripe = Stripe('pk_live_51TfkabGORsWUEjbftqsJazaFB6UpYX6lGtjEEkgtz9PCrb4BqJvRbrtjXGaSYWeuemJJsIyGfpUAgg6PCPFXfN2o00D2oJJ7YE');
-const elements = stripe.elements();
-const style = {
-  base: { color: '#e2eaf0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontSize: '15px', '::placeholder': { color: '#4a6080' } },
-  invalid: { color: '#f87171' }
-};
-const cardNumber = elements.create('cardNumber', { style });
-const cardExpiry = elements.create('cardExpiry', { style });
-const cardCvc   = elements.create('cardCvc', { style });
-cardNumber.mount('#card-number-element');
-cardExpiry.mount('#card-expiry-element');
-cardCvc.mount('#card-cvc-element');
-[cardNumber, cardExpiry, cardCvc].forEach(el => {
-  el.on('focus', () => el._iframe.closest('.stripe-field').classList.add('focused'));
-  el.on('blur',  () => el._iframe.closest('.stripe-field').classList.remove('focused'));
+const APP_ID = 'sq0idp-2TnrAkEeDQ5OOEpI9TyQug';
+const LOCATION_ID = 'LE43QNR075REF';
+const API_BASE = 'https://purifiedpay-api-production.up.railway.app';
+
+let squareCard = null;
+let currentService = null;
+let currentPrice = null;
+let squarePayments = null;
+
+// Initialize Square Web Payments SDK
+async function initSquare() {
+  if (!window.Square) {
+    console.error('Square SDK not loaded');
+    return;
+  }
+  try {
+    squarePayments = Square.payments(APP_ID, LOCATION_ID);
+  } catch (err) {
+    console.error('Failed to initialize Square payments:', err);
+  }
+}
+
+// Call initSquare on load
+if (document.readyState === 'complete') {
+  initSquare();
+} else {
+  window.addEventListener('load', initSquare);
+}
+
+async function openCheckoutModal(card) {
+  currentService = card.dataset.service;
+  currentPrice = parseInt(card.dataset.price, 10);
+
+  // Update modal UI
+  document.getElementById('modal-service-name').textContent = currentService;
+  document.getElementById('modal-service-price').innerHTML = `$${currentPrice} <span>/ engagement</span>`;
+  document.getElementById('modal-pay-label').textContent = `Pay $${currentPrice}.00`;
+  document.getElementById('modal-error').style.display = 'none';
+  document.getElementById('modal-error').textContent = '';
+  document.getElementById('modal-pay-btn').disabled = false;
+
+  // Show modal
+  document.getElementById('checkout-modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Mount Square card form fresh each time
+  if (squareCard) {
+    try { await squareCard.destroy(); } catch(e) {}
+    squareCard = null;
+  }
+
+  // Clear container
+  const container = document.getElementById('sq-card-container');
+  container.innerHTML = '';
+
+  if (!squarePayments) {
+    try {
+      squarePayments = Square.payments(APP_ID, LOCATION_ID);
+    } catch (err) {
+      showModalError('Payment SDK unavailable. Please refresh the page.');
+      return;
+    }
+  }
+
+  try {
+    const card = await squarePayments.card({
+      style: {
+        '.input-container': { borderColor: '#2a3f55', borderRadius: '8px' },
+        '.input-container.is-focus': { borderColor: '#00b4d8' },
+        '.input-container.is-error': { borderColor: '#f87171' },
+        input: {
+          color: '#e2eaf0',
+          fontSize: '15px',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        },
+        'input::placeholder': { color: '#4a6080' },
+        'input.is-focus': { color: '#ffffff' }
+      }
+    });
+    await card.attach('#sq-card-container');
+    squareCard = card;
+  } catch (err) {
+    console.error('Square card attach error:', err);
+    showModalError('Failed to load payment form. Please refresh and try again.');
+  }
+}
+
+function closeModal() {
+  document.getElementById('checkout-modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('checkout-modal')) {
+    closeModal();
+  }
+}
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
 });
 
-let selectedService = null;
-let selectedPrice = null;
-const serviceDescriptions = {
-  'Micronutrient Strategy Advisory': '60-min session · Custom framework · Written report',
-  'Performance Optimization Advisory': '45-min session · Protocol design · Stack assessment',
-  'Supplement & Sourcing Advisory': '50-min session · Vendor vetting · Interaction screening',
-  'Endocrine & Hormonal Wellness Advisory': '75-min deep dive · Lab framework · 30-day check-in',
-  'Metabolic Strategy Advisory': '60-min review · Energy framework · 2-week check-ins',
-  'Integrated Lifestyle & Nutrition Advisory': '90-min assessment · Full strategy plan · 3 check-ins'
-};
+async function handlePayment() {
+  const btn = document.getElementById('modal-pay-btn');
+  btn.disabled = true;
+  hideModalError();
 
-function selectService(card) {
-  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  selectedService = card.dataset.service;
-  selectedPrice   = parseInt(card.dataset.price);
-  updateSummary();
-  document.getElementById('scroll-cta').style.display = 'block';
-  document.getElementById('selected-name-cta').textContent = selectedService;
-  const sel = document.getElementById('service-select');
-  for (let opt of sel.options) { if (opt.value.startsWith(selectedService.split('&')[0])) { sel.value = opt.value; break; } }
-}
+  if (!squareCard) {
+    showModalError('Payment form not ready. Please close and try again.');
+    btn.disabled = false;
+    return;
+  }
 
-function updateServiceFromDropdown(sel) {
-  if (!sel.value) return;
-  const [name, price] = sel.value.split('|');
-  selectedService = name; selectedPrice = parseInt(price);
-  document.querySelectorAll('.service-card').forEach(c => c.classList.toggle('selected', c.dataset.service === name));
-  updateSummary();
-}
-
-function updateSummary() {
-  if (!selectedService) return;
-  document.getElementById('no-service-msg').style.display = 'none';
-  document.getElementById('summary-content').style.display = 'block';
-  document.getElementById('summary-service-name').textContent = selectedService;
-  document.getElementById('summary-service-desc').textContent = serviceDescriptions[selectedService] || '';
-  document.getElementById('summary-price').textContent  = `$${selectedPrice}.00`;
-  document.getElementById('summary-total').textContent  = `$${selectedPrice}.00`;
-  document.getElementById('nav-book-btn').style.display = 'inline-block';
-}
-
-function scrollToCheckout() {
-  document.getElementById('checkout-section').classList.add('visible');
-  document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-async function handleSubmit() {
-  const firstName = document.getElementById('first-name').value.trim();
-  const lastName  = document.getElementById('last-name').value.trim();
-  const email     = document.getElementById('email').value.trim();
-  if (!firstName || !lastName || !email) { showError('Please fill in your contact information.'); return; }
-  if (!selectedService) { showError('Please select an advisory service.'); return; }
-
+  // Show processing overlay
+  document.getElementById('processing-text').textContent = 'Processing your payment securely…';
   document.getElementById('processing-overlay').classList.add('active');
 
   try {
-    // Tokenize card with Square
+    // Tokenize the card
     const tokenResult = await squareCard.tokenize();
+
     if (tokenResult.status !== 'OK') {
-      const errs = tokenResult.errors.map(e => e.message).join(', ');
-      document.getElementById('processing-overlay').classList.remove('active');
-      showError(errs); return;
+      const errMsg = (tokenResult.errors || []).map(e => e.message).join(' ') || 'Card tokenization failed.';
+      throw new Error(errMsg);
     }
 
     const token = tokenResult.token;
-    const amountCents = selectedPrice * 100;
+    const amountCents = currentPrice * 100;
+    const note = currentService;
 
-    // Send token + amount to backend
-    const resp = await fetch('https://purifiedpay-api-production.up.railway.app/charge', {
+    // POST to create-payment-link
+    const resp = await fetch(API_BASE + '/create-payment-link', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        token: token,
         amount: amountCents,
-        service: selectedService,
-        email: email,
-        name: firstName + ' ' + lastName
+        note: note,
+        token: token
       })
     });
 
-    const result = await resp.json();
-    document.getElementById('processing-overlay').classList.remove('active');
-
-    if (result.success) {
-      showConfirmation(firstName, lastName, email, result.receipt_url);
-    } else {
-      showError(result.error || 'Payment failed. Please try again.');
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.error || `Server error (${resp.status}). Please try again.`);
     }
 
-  } catch(e) {
+    const data = await resp.json();
+
+    // Redirect to Square checkout URL
+    const checkoutUrl = data.url || data.checkout_url || data.payment_link?.url || data.long_url;
+    if (checkoutUrl) {
+      document.getElementById('processing-text').textContent = 'Redirecting to secure checkout…';
+      window.location.href = checkoutUrl;
+    } else {
+      throw new Error('No checkout URL returned from server.');
+    }
+
+  } catch (err) {
     document.getElementById('processing-overlay').classList.remove('active');
-    showError('Connection error. Please try again.');
-    console.error(e);
+    btn.disabled = false;
+    showModalError(err.message || 'An error occurred. Please try again.');
   }
 }
 
-function showConfirmation(first, last, email, receiptUrl) {
-  const ref  = 'REF-PP-' + Math.floor(100000 + Math.random() * 900000);
-  const date = document.getElementById('pref-date').value || 'To be scheduled';
-  document.getElementById('confirm-ref-num').textContent  = ref;
-  document.getElementById('confirm-service').textContent  = selectedService;
-  document.getElementById('confirm-name').textContent     = `${first} ${last}`;
-  document.getElementById('confirm-email').textContent    = email;
-  document.getElementById('confirm-date').textContent     = date;
-  document.getElementById('confirm-amount').textContent   = `$${selectedPrice}.00`;
-  if (receiptUrl) {
-    const receiptLink = document.createElement('a');
-    receiptLink.href = receiptUrl;
-    receiptLink.textContent = 'View Receipt →';
-    receiptLink.target = '_blank';
-    receiptLink.style.color = 'var(--teal)';
-    receiptLink.style.display = 'block';
-    receiptLink.style.marginTop = '12px';
-    document.getElementById('confirm-ref-num').parentNode.appendChild(receiptLink);
-  }
-  document.getElementById('checkout-section').classList.remove('visible');
-  document.getElementById('confirmation-section').classList.add('visible');
-  document.getElementById('confirmation-section').scrollIntoView({ behavior: 'smooth' });
+function showModalError(msg) {
+  const el = document.getElementById('modal-error');
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
 }
 
-function showError(msg) {
-  const el = document.getElementById('card-error');
-  el.textContent = msg; el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 5000);
+function hideModalError() {
+  const el = document.getElementById('modal-error');
+  el.style.display = 'none';
+  el.textContent = '';
 }
-
-function resetAll() {
-  selectedService = null; selectedPrice = null;
-  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('confirmation-section').classList.remove('visible');
-  document.getElementById('checkout-section').classList.remove('visible');
-  document.getElementById('scroll-cta').style.display = 'none';
-  document.getElementById('no-service-msg').style.display = 'block';
-  document.getElementById('summary-content').style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-const dateInput = document.getElementById('pref-date');
-const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-dateInput.min = tomorrow.toISOString().split('T')[0];
 </script>
+
 </body>
 </html>
