@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — PurifiedPay</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1b2a;
+    --navy2: #1b2e45;
+    --teal: #00b4d8;
+    --teal2: #0077b6;
+    --white: #ffffff;
+    --gray: #8899aa;
+    --border: #2a3f55;
+    --text: #e2eaf0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--navy2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-size: 20px; font-weight: 700; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
+  .logo span { color: var(--white); }
+  nav ul { list-style: none; display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+  nav ul a { color: var(--gray); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  nav ul a:hover { color: var(--teal); }
+  nav ul a.active { color: var(--teal); }
+
+  /* PAGE CONTENT */
+  .page-wrap {
+    max-width: 780px;
+    margin: 60px auto 80px;
+    padding: 0 24px;
+    flex: 1;
+  }
+
+  .page-badge {
+    display: inline-block;
+    background: rgba(0,180,216,0.15);
+    color: var(--teal);
+    border: 1px solid rgba(0,180,216,0.3);
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+
+  .page-meta {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .content-card {
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .content-card { padding: 24px 20px; }
+  }
+
+  .content-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .content-card h2 .section-num {
+    background: rgba(0,180,216,0.12);
+    border: 1px solid rgba(0,180,216,0.25);
+    color: var(--teal);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .content-card p {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  .content-card p:last-child { margin-bottom: 0; }
+
+  .content-card ul {
+    list-style: none;
+    margin: 10px 0 14px;
+    padding: 0;
+  }
+  .content-card ul li {
+    font-size: 15px;
+    color: var(--text);
+    padding: 5px 0 5px 22px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .content-card ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-size: 12px;
+    top: 7px;
+  }
+
+  .highlight-box {
+    background: rgba(0,180,216,0.06);
+    border: 1px solid rgba(0,180,216,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .contact-info {
+    background: rgba(0,180,216,0.06);
+    border: 1px solid rgba(0,180,216,0.2);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-top: 16px;
+  }
+  .contact-info p { margin-bottom: 4px; font-size: 14px; }
+  .contact-info a { color: var(--teal); text-decoration: none; }
+  .contact-info a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer { background: var(--navy2); border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; margin-top: auto; }
+  .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 20px; flex-wrap: wrap; }
+  .footer-links a { color: var(--gray); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--teal); }
+  .footer-copy { font-size: 13px; color: var(--gray); }
+  .footer-copy strong { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Purified<span>Pay</span></a>
+  <ul>
+    <li><a href="index.html">Services</a></li>
+    <li><a href="terms.html">Terms</a></li>
+    <li><a href="cancellation.html">Cancellation</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="privacy.html" class="active">Privacy Policy</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE BODY -->
+<main class="page-wrap">
+  <div class="page-badge">Legal</div>
+  <h1 class="page-title">Privacy Policy</h1>
+  <p class="page-meta">
+    <strong>PurifiedPay LLC</strong> · Effective Date: January 1, 2025 · Last Updated: June 2025<br>
+    EIN: 42-2893950 · State of Incorporation: Wyoming
+  </p>
+
+  <div class="content-card">
+    <h2><span class="section-num">§1</span> Introduction</h2>
+    <p>PurifiedPay LLC ("PurifiedPay," "we," "us," or "our") respects your privacy and is committed to protecting the personal information you share with us. This Privacy Policy explains what information we collect, how we use it, and the choices you have regarding your data.</p>
+    <p>By using our website or services, you acknowledge that you have read and understood this Privacy Policy. If you do not agree with our practices, please do not use our services.</p>
+    <div class="highlight-box">
+      This policy applies to all information collected through our website (purifiedpay.com), our booking and payment processes, and any direct communications between you and PurifiedPay LLC.
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§2</span> Information We Collect</h2>
+    <p>We collect only the information necessary to provide our advisory services. This includes:</p>
+    <ul>
+      <li><strong>Identity Information:</strong> Your full name and, if applicable, the name of your organization.</li>
+      <li><strong>Contact Information:</strong> Email address and any other contact details you voluntarily provide.</li>
+      <li><strong>Payment Information:</strong> Credit or debit card details, billing address, and transaction records. Card data is processed directly by Square and is not stored on our servers (see §5).</li>
+      <li><strong>Service Information:</strong> Details you share during booking or advisory sessions, such as wellness goals, health background, or preferences relevant to your engagement.</li>
+      <li><strong>Communications:</strong> Records of emails, messages, or other correspondence you send to us.</li>
+      <li><strong>Technical Data:</strong> Basic website usage information such as IP address, browser type, and pages visited, collected automatically when you visit our site (see §6).</li>
+    </ul>
+    <p>We do not knowingly collect personal information from individuals under the age of 18. If you believe a minor has provided us with information, please contact us immediately.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§3</span> How We Use Your Information</h2>
+    <p>The information we collect is used solely for the following purposes:</p>
+    <ul>
+      <li><strong>Service Delivery:</strong> To schedule, confirm, and conduct your advisory engagement sessions.</li>
+      <li><strong>Payment Processing:</strong> To process transactions and maintain accurate billing records.</li>
+      <li><strong>Client Communication:</strong> To respond to inquiries, send booking confirmations, session reminders, and follow-up correspondence.</li>
+      <li><strong>Service Improvement:</strong> To better understand client needs and improve the quality of our advisory offerings.</li>
+      <li><strong>Legal Compliance:</strong> To comply with applicable laws, regulations, or legal processes, and to protect the rights and interests of PurifiedPay LLC.</li>
+      <li><strong>Record Keeping:</strong> To maintain business records as required by Wyoming law and applicable tax regulations.</li>
+    </ul>
+    <p>We will not use your information for any purpose materially different from those listed above without first obtaining your explicit consent.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§4</span> No Sale or Sharing of Personal Data</h2>
+    <p>PurifiedPay LLC does <strong>not</strong> sell, rent, lease, or trade your personal information to any third party — ever. Your data is not used for advertising networks, data brokers, or any form of commercial data sharing.</p>
+    <p>We may share information only in the following limited circumstances:</p>
+    <ul>
+      <li><strong>Payment Processors:</strong> We share necessary billing information with Square to complete transactions (see §5). Square operates under its own privacy policy.</li>
+      <li><strong>Legal Requirements:</strong> We may disclose information if required to do so by law, subpoena, court order, or governmental authority.</li>
+      <li><strong>Business Protection:</strong> We may share information where necessary to investigate, prevent, or take action regarding illegal activities, fraud, or violations of our Terms of Service.</li>
+      <li><strong>Business Transfers:</strong> In the unlikely event of a merger, acquisition, or sale of assets, client data may be transferred as part of that transaction. You will be notified via email and/or a prominent notice on our website of any such change.</li>
+    </ul>
+    <div class="highlight-box">
+      <strong>Our commitment:</strong> We will never sell your personal data to marketers, advertisers, or data brokers. Your information is used exclusively to serve you as a client of PurifiedPay LLC.
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§5</span> Payment Processing via Square</h2>
+    <p>All payment transactions are processed securely through <strong>Square, Inc.</strong>, a third-party payment processor. When you provide your credit or debit card information during checkout, that data is transmitted directly to Square using industry-standard 256-bit SSL encryption.</p>
+    <p>PurifiedPay LLC does <strong>not</strong> store, log, or have access to your full card number, CVV, or other sensitive card data. Square's systems handle all cardholder data in compliance with Payment Card Industry Data Security Standards (PCI-DSS).</p>
+    <ul>
+      <li>Square's handling of your payment information is governed by Square's Privacy Policy, available at <strong>squareup.com/legal/privacy</strong>.</li>
+      <li>We retain only non-sensitive transaction records (e.g., transaction ID, date, amount, last four digits of card) for our own billing and record-keeping purposes.</li>
+      <li>By making a payment through our platform, you also agree to Square's applicable terms and privacy practices.</li>
+    </ul>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§6</span> Cookies &amp; Analytics</h2>
+    <p>Our website uses minimal cookies and tracking technologies. We do not use aggressive advertising trackers or third-party behavioral profiling tools.</p>
+    <ul>
+      <li><strong>Essential Cookies:</strong> Small cookies may be set to ensure the website functions correctly (e.g., session state, form security tokens). These are strictly necessary and cannot be disabled without affecting site functionality.</li>
+      <li><strong>Analytics:</strong> We may use basic, privacy-respecting analytics (such as aggregate page view counts) to understand how visitors use our site. Any analytics data is anonymized and not linked to individual identities.</li>
+      <li><strong>No Advertising Cookies:</strong> We do not use cookies for advertising retargeting, remarketing, or behavioral ad profiling.</li>
+    </ul>
+    <p>Most web browsers allow you to control cookie settings through your browser preferences. Disabling cookies may affect certain website features but will not prevent you from accessing our content.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§7</span> Data Retention</h2>
+    <p>We retain your personal information only for as long as necessary to fulfill the purposes described in this policy or as required by applicable law.</p>
+    <ul>
+      <li><strong>Client Records:</strong> Information related to completed engagements is retained for a minimum of <strong>five (5) years</strong> to comply with Wyoming business record-keeping requirements and applicable tax laws.</li>
+      <li><strong>Payment Records:</strong> Transaction records (non-sensitive) are retained for a minimum of <strong>seven (7) years</strong> in accordance with IRS and state financial record requirements.</li>
+      <li><strong>Communications:</strong> Email and written correspondence may be retained for up to three (3) years from the date of last contact.</li>
+      <li><strong>Inactive Accounts:</strong> If you have not engaged our services in five (5) years and have no outstanding matters, we will securely delete or anonymize your personal data upon request.</li>
+    </ul>
+    <p>When data is no longer required, it is securely deleted or anonymized so that it can no longer be associated with you.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§8</span> Your Rights</h2>
+    <p>You have meaningful rights with respect to your personal information. You may exercise any of the following at any time by contacting us at <a href="mailto:info@purifiedpay.com" style="color:var(--teal);text-decoration:none;">info@purifiedpay.com</a>:</p>
+    <ul>
+      <li><strong>Right to Access:</strong> Request a copy of the personal information we hold about you.</li>
+      <li><strong>Right to Correction:</strong> Request that we correct inaccurate or incomplete personal information.</li>
+      <li><strong>Right to Deletion:</strong> Request that we delete your personal information, subject to any legal retention obligations.</li>
+      <li><strong>Right to Restrict Processing:</strong> Request that we limit how we use your data in certain circumstances.</li>
+      <li><strong>Right to Data Portability:</strong> Request a copy of your data in a structured, commonly used format.</li>
+      <li><strong>Right to Withdraw Consent:</strong> Where processing is based on consent, you may withdraw that consent at any time without affecting prior processing.</li>
+      <li><strong>Right to Opt Out of Communications:</strong> You may unsubscribe from non-essential communications at any time by replying "unsubscribe" to any email or contacting us directly.</li>
+    </ul>
+    <p>We will respond to all verified requests within <strong>30 days</strong>. In certain circumstances, we may need to verify your identity before fulfilling a request to protect the security of your information.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§9</span> Data Security</h2>
+    <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, loss, alteration, or disclosure. These include:</p>
+    <ul>
+      <li>Encrypted transmission of data using SSL/TLS protocols</li>
+      <li>Access controls limiting data access to authorized personnel only</li>
+      <li>Secure payment processing via PCI-DSS compliant Square infrastructure</li>
+      <li>Regular review of our data handling and security practices</li>
+    </ul>
+    <p>While we take reasonable precautions, no method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security, but we are committed to maintaining industry-appropriate safeguards for your data.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§10</span> Governing Law</h2>
+    <p>This Privacy Policy is governed by and construed in accordance with the laws of the <strong>State of Wyoming</strong>, United States, without regard to its conflict of law provisions.</p>
+    <p>Any disputes relating to this Privacy Policy shall be subject to the exclusive jurisdiction of the courts located in Sheridan County, Wyoming, or resolved through binding arbitration as described in our Terms of Service.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§11</span> Changes to This Policy</h2>
+    <p>PurifiedPay LLC reserves the right to update this Privacy Policy at any time. We will notify you of material changes by:</p>
+    <ul>
+      <li>Posting the revised policy on our website with an updated "Last Updated" date</li>
+      <li>Sending an email notification to clients with an active account or recent engagement</li>
+    </ul>
+    <p>Your continued use of our services after the effective date of any changes constitutes your acceptance of the revised policy. We encourage you to review this page periodically to stay informed about how we protect your information.</p>
+  </div>
+
+  <div class="content-card">
+    <h2><span class="section-num">§12</span> Contact Us</h2>
+    <p>If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please reach out to us directly:</p>
+    <div class="contact-info">
+      <p><strong style="color:var(--teal);">PurifiedPay LLC</strong></p>
+      <p>30 N Gould St Ste R</p>
+      <p>Sheridan, WY 82801</p>
+      <p>Email: <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a></p>
+      <p style="margin-top:8px;font-size:13px;color:var(--gray);">EIN: 42-2893950 · Wyoming LLC</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="logo" style="display:inline-block;margin-bottom:16px;">Purified<span>Pay</span></a>
+  <div class="footer-links">
+    <a href="terms.html">Terms of Service</a>
+    <a href="cancellation.html">Cancellation Policy</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a>
+  </div>
+  <div class="footer-copy">© 2025 <strong>PurifiedPay LLC</strong> · Professional Advisory Services · Sheridan, WY</div>
+</footer>
+
+</body>
+</html>
