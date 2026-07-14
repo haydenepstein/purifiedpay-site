@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PurifiedPay — Professional Advisory Services</title>
-<script src="https://secure.nmi.com/token/Collect.js" data-tokenization-key="SGZuPX-Kb55Tv-Nw5KeR-A32x9z" data-variant="inline" defer></script>
+<script src="https://cdn.fattmerchant.com/js/fattjs/2/fattjs.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -409,7 +409,11 @@
     </div>
 
     <label class="sq-field-label">Card Details</label>
-    <div id="CollectJSInlinePaymentForm" style="width:100%;"></div>
+    <div id="fattjs-number" style="height:40px;width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;box-sizing:border-box;margin-bottom:6px;"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div id="fattjs-month-year" style="height:40px;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;"></div>
+      <div id="fattjs-cvv" style="height:40px;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;"></div>
+    </div>
 
     <div id="modal-error"></div>
 
@@ -420,7 +424,7 @@
 
     <div class="modal-secure">
       <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-      256-bit SSL encrypted · Secured by NMI
+      256-bit SSL encrypted · Secured by Stax
     </div>
     <p class="modal-terms">
       By completing your engagement you agree to our
@@ -483,45 +487,49 @@
 
 <script>
 const API_BASE = 'https://purifiedpay-api-production.up.railway.app';
+const STAX_WEBPAYMENTS_TOKEN = 'Purified-Pay-LLC-46b25d06dcf2';
 
 let currentService = null;
 let currentPrice = null;
-let collectJSReady = false;
+let fattJs = null;
+let fattJsReady = false;
 
-// Configure Collect.js once it loads
-function initCollectJS() {
-  if (typeof CollectJS === 'undefined') return;
-  CollectJS.configure({
-    variant: 'inline',
-    styleSniffer: false,
-    fields: {
-      ccnumber: { selector: '#CollectJSInlinePaymentForm', placeholder: 'Card Number' },
-      ccexp:    { selector: '#CollectJSInlinePaymentForm', placeholder: 'MM / YY' },
-      cvv:      { selector: '#CollectJSInlinePaymentForm', placeholder: 'CVV' }
+function initFattJs() {
+  if (typeof FattJs === 'undefined') return;
+  fattJs = new FattJs(STAX_WEBPAYMENTS_TOKEN, {
+    number: {
+      id: 'fattjs-number',
+      placeholder: 'Card Number',
+      style: 'height:40px;width:100%;font-size:15px;color:#e2eaf0;background:transparent;border:none;outline:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;'
     },
-    customCss: {
-      'background-color': 'rgba(255,255,255,0.06)',
-      'border': '1px solid rgba(255,255,255,0.15)',
-      'border-radius': '8px',
-      'color': '#e2eaf0',
-      'font-size': '15px',
-      'padding': '10px 12px',
-      'font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    month: {
+      id: 'fattjs-month-year',
+      placeholder: 'MM / YY',
+      style: 'height:40px;width:100%;font-size:15px;color:#e2eaf0;background:transparent;border:none;outline:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;'
     },
-    callback: function(response) {
-      onCollectJSToken(response);
+    cvv: {
+      id: 'fattjs-cvv',
+      placeholder: 'CVV',
+      style: 'height:40px;width:100%;font-size:15px;color:#e2eaf0;background:transparent;border:none;outline:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;'
     }
   });
-  collectJSReady = true;
+
+  fattJs.on('card_form_complete', function(msg) { fattJsReady = true; });
+  fattJs.on('card_form_uncomplete', function(msg) { fattJsReady = false; });
+  fattJs.on('payment_change', function(payment) { console.log('payment change', payment); });
+
+  fattJs.showCardForm().then(function() {
+    console.log('FattJS card form ready');
+  }).catch(function(err) {
+    console.error('FattJS form error:', err);
+  });
 }
 
-// Wait for Collect.js script to load
 window.addEventListener('load', function() {
-  if (typeof CollectJS !== 'undefined') {
-    initCollectJS();
+  if (typeof FattJs !== 'undefined') {
+    initFattJs();
   } else {
-    // Retry after short delay
-    setTimeout(initCollectJS, 500);
+    setTimeout(initFattJs, 800);
   }
 });
 
@@ -539,10 +547,7 @@ async function openCheckoutModal(card) {
   document.getElementById('checkout-modal').classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  // Re-initialize Collect.js fields each time modal opens
-  if (!collectJSReady) {
-    initCollectJS();
-  }
+  if (!fattJs) initFattJs();
 }
 
 function closeModal() {
@@ -551,89 +556,90 @@ function closeModal() {
 }
 
 function handleOverlayClick(e) {
-  if (e.target === document.getElementById('checkout-modal')) {
-    closeModal();
-  }
+  if (e.target === document.getElementById('checkout-modal')) closeModal();
 }
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
 
-function handlePayment() {
+async function handlePayment() {
   const btn = document.getElementById('modal-pay-btn');
 
-  // Validate billing fields
-  const first = document.getElementById('billing-first').value.trim();
-  const last = document.getElementById('billing-last').value.trim();
-  const email = document.getElementById('billing-email').value.trim();
-  const address = document.getElementById('billing-address').value.trim();
-  const city = document.getElementById('billing-city').value.trim();
-  const state = document.getElementById('billing-state').value.trim();
-  const zip = document.getElementById('billing-zip').value.trim();
+  const first    = document.getElementById('billing-first').value.trim();
+  const last     = document.getElementById('billing-last').value.trim();
+  const email    = document.getElementById('billing-email').value.trim();
+  const address  = document.getElementById('billing-address').value.trim();
+  const city     = document.getElementById('billing-city').value.trim();
+  const state    = document.getElementById('billing-state').value.trim();
+  const zip      = document.getElementById('billing-zip').value.trim();
 
   if (!first || !last || !email || !address || !city || !state || !zip) {
-    showModalError('Please fill in all billing fields before submitting.');
+    showModalError('Please fill in all billing fields.');
     return;
   }
 
-  if (!collectJSReady) {
-    showModalError('Payment form not ready. Please refresh the page and try again.');
+  if (!fattJs) {
+    showModalError('Payment form not ready. Please refresh the page.');
     return;
   }
 
   btn.disabled = true;
   hideModalError();
-
-  // Show processing overlay
   document.getElementById('processing-text').textContent = 'Processing your payment securely…';
   document.getElementById('processing-overlay').classList.add('active');
 
-  // Trigger Collect.js tokenization
-  CollectJS.startPaymentRequest();
-}
-
-async function onCollectJSToken(response) {
-  const btn = document.getElementById('modal-pay-btn');
-
   try {
-    const first = document.getElementById('billing-first').value.trim();
-    const last = document.getElementById('billing-last').value.trim();
-    const email = document.getElementById('billing-email').value.trim();
-    const address = document.getElementById('billing-address').value.trim();
-    const city = document.getElementById('billing-city').value.trim();
-    const state = document.getElementById('billing-state').value.trim();
-    const zip = document.getElementById('billing-zip').value.trim();
+    // Tokenize card via FattJS
+    const tokenResult = await fattJs.tokenize({
+      month: '',   // FattJS reads from its own fields
+      year: '',
+      firstname: first,
+      lastname: last,
+      address_1: address,
+      address_city: city,
+      address_state: state,
+      address_zip: zip,
+      address_country: 'US',
+      method: 'card',
+      validate: false
+    });
 
-    const resp = await fetch(API_BASE + '/charge', {
+    if (!tokenResult || tokenResult.error) {
+      throw new Error((tokenResult && tokenResult.error) || 'Card tokenization failed.');
+    }
+
+    const payment_method_id = tokenResult.id;
+
+    // Charge via backend
+    const resp = await fetch(API_BASE + '/charge-stax', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        token: response.token,
+        payment_method_id,
         amount: currentPrice.toFixed(2),
-        email: email,
+        email,
         first_name: first,
         last_name: last,
         address1: address,
-        city: city,
-        state: state,
-        zip: zip,
-        country: 'US',
-        product: currentService
+        city,
+        state,
+        zip,
+        service: currentService
       })
     });
 
     const data = await resp.json();
 
     if (data.success) {
-      document.getElementById('processing-text').textContent = 'Payment successful! Redirecting…';
+      document.getElementById('processing-text').textContent = 'Payment successful!';
       setTimeout(() => {
         document.getElementById('processing-overlay').classList.remove('active');
         closeModal();
         alert('Payment successful! Transaction ID: ' + data.transaction_id + '\n\nYou will receive a confirmation email shortly.');
       }, 1500);
     } else {
-      throw new Error(data.error || 'Payment declined. Please try a different card.');
+      throw new Error(data.error || 'Payment declined.');
     }
 
   } catch (err) {
