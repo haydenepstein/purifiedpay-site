@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PurifiedPay — Professional Advisory Services</title>
-<script src="https://web.squarecdn.com/v1/square.js"></script>
+<script src="https://secure.nmi.com/token/Collect.js" data-tokenization-key="SGZuPX-Kb55Tv-Nw5KeR-A32x9z" data-variant="inline" defer></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -377,7 +377,7 @@
     <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
 
     <h3 id="modal-title">Complete Your Booking</h3>
-    <p class="modal-subtitle">Powered by Square · 256-bit SSL encrypted</p>
+    <p class="modal-subtitle">Secure Card Payment · 256-bit SSL encrypted</p>
 
     <div class="modal-service-badge">
       <div class="modal-service-name" id="modal-service-name">Advisory Service</div>
@@ -409,7 +409,7 @@
     </div>
 
     <label class="sq-field-label">Card Details</label>
-    <div id="sq-card-container"></div>
+    <div id="CollectJSInlinePaymentForm" style="width:100%;"></div>
 
     <div id="modal-error"></div>
 
@@ -420,7 +420,7 @@
 
     <div class="modal-secure">
       <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-      256-bit SSL encrypted · Secured by Square
+      256-bit SSL encrypted · Secured by NMI
     </div>
     <p class="modal-terms">
       By completing your engagement you agree to our
@@ -482,40 +482,53 @@
 </footer>
 
 <script>
-const APP_ID = 'sq0idp-2TnrAkEeDQ5OOEpI9TyQug';
-const LOCATION_ID = 'LE43QNR075REF';
 const API_BASE = 'https://purifiedpay-api-production.up.railway.app';
 
-let squareCard = null;
 let currentService = null;
 let currentPrice = null;
-let squarePayments = null;
+let collectJSReady = false;
 
-// Initialize Square Web Payments SDK
-async function initSquare() {
-  if (!window.Square) {
-    console.error('Square SDK not loaded');
-    return;
-  }
-  try {
-    squarePayments = Square.payments(APP_ID, LOCATION_ID);
-  } catch (err) {
-    console.error('Failed to initialize Square payments:', err);
-  }
+// Configure Collect.js once it loads
+function initCollectJS() {
+  if (typeof CollectJS === 'undefined') return;
+  CollectJS.configure({
+    variant: 'inline',
+    styleSniffer: false,
+    fields: {
+      ccnumber: { selector: '#CollectJSInlinePaymentForm', placeholder: 'Card Number' },
+      ccexp:    { selector: '#CollectJSInlinePaymentForm', placeholder: 'MM / YY' },
+      cvv:      { selector: '#CollectJSInlinePaymentForm', placeholder: 'CVV' }
+    },
+    customCss: {
+      'background-color': 'rgba(255,255,255,0.06)',
+      'border': '1px solid rgba(255,255,255,0.15)',
+      'border-radius': '8px',
+      'color': '#e2eaf0',
+      'font-size': '15px',
+      'padding': '10px 12px',
+      'font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    },
+    callback: function(response) {
+      onCollectJSToken(response);
+    }
+  });
+  collectJSReady = true;
 }
 
-// Call initSquare on load
-if (document.readyState === 'complete') {
-  initSquare();
-} else {
-  window.addEventListener('load', initSquare);
-}
+// Wait for Collect.js script to load
+window.addEventListener('load', function() {
+  if (typeof CollectJS !== 'undefined') {
+    initCollectJS();
+  } else {
+    // Retry after short delay
+    setTimeout(initCollectJS, 500);
+  }
+});
 
 async function openCheckoutModal(card) {
   currentService = card.dataset.service;
   currentPrice = parseInt(card.dataset.price, 10);
 
-  // Update modal UI
   document.getElementById('modal-service-name').textContent = currentService;
   document.getElementById('modal-service-price').innerHTML = `$${currentPrice} <span>/ engagement</span>`;
   document.getElementById('modal-pay-label').textContent = `Pay $${currentPrice}.00`;
@@ -523,49 +536,12 @@ async function openCheckoutModal(card) {
   document.getElementById('modal-error').textContent = '';
   document.getElementById('modal-pay-btn').disabled = false;
 
-  // Show modal
   document.getElementById('checkout-modal').classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  // Mount Square card form fresh each time
-  if (squareCard) {
-    try { await squareCard.destroy(); } catch(e) {}
-    squareCard = null;
-  }
-
-  // Clear container
-  const container = document.getElementById('sq-card-container');
-  container.innerHTML = '';
-
-  if (!squarePayments) {
-    try {
-      squarePayments = Square.payments(APP_ID, LOCATION_ID);
-    } catch (err) {
-      showModalError('Payment SDK unavailable. Please refresh the page.');
-      return;
-    }
-  }
-
-  try {
-    const card = await squarePayments.card({
-      style: {
-        '.input-container': { borderColor: '#2a3f55', borderRadius: '8px' },
-        '.input-container.is-focus': { borderColor: '#00b4d8' },
-        '.input-container.is-error': { borderColor: '#f87171' },
-        input: {
-          color: '#e2eaf0',
-          fontSize: '15px',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
-        },
-        'input::placeholder': { color: '#4a6080' },
-        'input.is-focus': { color: '#ffffff' }
-      }
-    });
-    await card.attach('#sq-card-container');
-    squareCard = card;
-  } catch (err) {
-    console.error('Square card attach error:', err);
-    showModalError('Failed to load payment form. Please refresh and try again.');
+  // Re-initialize Collect.js fields each time modal opens
+  if (!collectJSReady) {
+    initCollectJS();
   }
 }
 
@@ -580,64 +556,84 @@ function handleOverlayClick(e) {
   }
 }
 
-// Close on Escape
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
 });
 
-async function handlePayment() {
+function handlePayment() {
   const btn = document.getElementById('modal-pay-btn');
-  btn.disabled = true;
-  hideModalError();
 
-  if (!squareCard) {
-    showModalError('Payment form not ready. Please close and try again.');
-    btn.disabled = false;
+  // Validate billing fields
+  const first = document.getElementById('billing-first').value.trim();
+  const last = document.getElementById('billing-last').value.trim();
+  const email = document.getElementById('billing-email').value.trim();
+  const address = document.getElementById('billing-address').value.trim();
+  const city = document.getElementById('billing-city').value.trim();
+  const state = document.getElementById('billing-state').value.trim();
+  const zip = document.getElementById('billing-zip').value.trim();
+
+  if (!first || !last || !email || !address || !city || !state || !zip) {
+    showModalError('Please fill in all billing fields before submitting.');
     return;
   }
+
+  if (!collectJSReady) {
+    showModalError('Payment form not ready. Please refresh the page and try again.');
+    return;
+  }
+
+  btn.disabled = true;
+  hideModalError();
 
   // Show processing overlay
   document.getElementById('processing-text').textContent = 'Processing your payment securely…';
   document.getElementById('processing-overlay').classList.add('active');
 
+  // Trigger Collect.js tokenization
+  CollectJS.startPaymentRequest();
+}
+
+async function onCollectJSToken(response) {
+  const btn = document.getElementById('modal-pay-btn');
+
   try {
-    // Tokenize the card
-    const tokenResult = await squareCard.tokenize();
+    const first = document.getElementById('billing-first').value.trim();
+    const last = document.getElementById('billing-last').value.trim();
+    const email = document.getElementById('billing-email').value.trim();
+    const address = document.getElementById('billing-address').value.trim();
+    const city = document.getElementById('billing-city').value.trim();
+    const state = document.getElementById('billing-state').value.trim();
+    const zip = document.getElementById('billing-zip').value.trim();
 
-    if (tokenResult.status !== 'OK') {
-      const errMsg = (tokenResult.errors || []).map(e => e.message).join(' ') || 'Card tokenization failed.';
-      throw new Error(errMsg);
-    }
-
-    const token = tokenResult.token;
-    const amountCents = currentPrice * 100;
-    const note = currentService;
-
-    // POST to create-payment-link
-    const resp = await fetch(API_BASE + '/create-payment-link', {
+    const resp = await fetch(API_BASE + '/charge', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount: amountCents,
-        note: note,
-        token: token
+        token: response.token,
+        amount: currentPrice.toFixed(2),
+        email: email,
+        first_name: first,
+        last_name: last,
+        address1: address,
+        city: city,
+        state: state,
+        zip: zip,
+        country: 'US',
+        product: currentService
       })
     });
 
-    if (!resp.ok) {
-      const errData = await resp.json().catch(() => ({}));
-      throw new Error(errData.error || `Server error (${resp.status}). Please try again.`);
-    }
-
     const data = await resp.json();
 
-    // Redirect to Square checkout URL
-    const checkoutUrl = data.url || data.checkout_url || data.payment_link?.url || data.long_url;
-    if (checkoutUrl) {
-      document.getElementById('processing-text').textContent = 'Redirecting to secure checkout…';
-      window.location.href = checkoutUrl;
+    if (data.success) {
+      document.getElementById('processing-text').textContent = 'Payment successful! Redirecting…';
+      setTimeout(() => {
+        document.getElementById('processing-overlay').classList.remove('active');
+        closeModal();
+        alert('Payment successful! Transaction ID: ' + data.transaction_id + '\n\nYou will receive a confirmation email shortly.');
+      }, 1500);
     } else {
-      throw new Error('No checkout URL returned from server.');
+      throw new Error(data.error || 'Payment declined. Please try a different card.');
     }
 
   } catch (err) {
