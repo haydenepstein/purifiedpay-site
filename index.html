@@ -408,6 +408,23 @@
       </div>
     </div>
 
+    <!-- Shipping Address (same as billing by default) -->
+    <div style="margin-bottom:10px;">
+      <label class="sq-field-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="same-as-billing" checked onchange="toggleShipping()" style="width:16px;height:16px;accent-color:#00c2a8;">
+        Shipping address same as billing
+      </label>
+    </div>
+    <div id="shipping-fields" style="display:none;margin-bottom:10px;">
+      <label class="sq-field-label">Shipping Address</label>
+      <input id="shipping-address" type="text" placeholder="Street address" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box;margin-bottom:6px;">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;">
+        <input id="shipping-city" type="text" placeholder="City" style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
+        <input id="shipping-state" type="text" placeholder="State" maxlength="2" style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
+        <input id="shipping-zip" type="text" placeholder="ZIP" maxlength="10" style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
+      </div>
+    </div>
+
     <label class="sq-field-label">Card Details</label>
     <div id="fattjs-number" style="height:40px;width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;box-sizing:border-box;margin-bottom:6px;"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -493,6 +510,11 @@ let currentService = null;
 let currentPrice = null;
 let fattJs = null;
 let fattJsReady = false;
+
+function toggleShipping() {
+  const cb = document.getElementById('same-as-billing');
+  document.getElementById('shipping-fields').style.display = cb.checked ? 'none' : 'block';
+}
 
 function initFattJs() {
   if (typeof FattJs === 'undefined') return;
