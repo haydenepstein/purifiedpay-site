@@ -371,7 +371,7 @@
 </section>
 
 
-<div id="pay_now" style="display:none;"></div>
+<div id="pay_now" style="position:absolute;left:-9999px;top:0;"></div>
 
 <!-- FOOTER -->
 <footer>
@@ -419,15 +419,14 @@
 
 <script>
 function openStaxCheckout(service, price) {
-  // Remove existing Stax script to allow re-injection with new amount
+  // Remove existing Stax script + injected button to reset
   const existing = document.getElementById('stax_checkout_script');
   if (existing) existing.remove();
-
-  // Clear the container
+  // Clear any previously injected Stax button
   const payDiv = document.getElementById('pay_now');
   if (payDiv) payDiv.innerHTML = '';
 
-  // Inject Stax Lightbox script — data-openOnLoad opens it immediately
+  // Inject fresh Stax Lightbox script with the selected price
   const script = document.createElement('script');
   script.id = 'stax_checkout_script';
   script.src = 'https://checkout.staxpayments.com/v1/checkout.min.js';
@@ -437,7 +436,19 @@ function openStaxCheckout(service, price) {
   script.setAttribute('data-billingInclude', 'true');
   script.setAttribute('data-billingRequired', 'true');
   script.setAttribute('data-displayConfirmation', 'true');
-  script.setAttribute('data-openOnLoad', 'true');
+  // Poll for Stax to inject its button, then click it to open the lightbox
+  script.onload = function() {
+    let attempts = 0;
+    const poll = setInterval(function() {
+      const btn = payDiv ? payDiv.querySelector('button, a, [role="button"]') : null;
+      if (btn) {
+        clearInterval(poll);
+        btn.click();
+      } else if (++attempts > 20) {
+        clearInterval(poll);
+      }
+    }, 100);
+  };
   document.body.appendChild(script);
 }
 </script>
