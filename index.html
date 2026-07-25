@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PurifiedPay — Professional Advisory Services</title>
-<script src="https://cdn.staxpayments.com/libs/fattjs/1/fattjs.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -255,7 +254,7 @@
           <li>Written follow-up report</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
+      <button class="card-cta" onclick="openStaxCheckout('Micronutrient Strategy Advisory', 149)">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Performance Optimization Advisory" data-price="129">
@@ -271,7 +270,7 @@
           <li>Progress tracking template</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
+      <button class="card-cta" onclick="openStaxCheckout('Performance Optimization Advisory', 129)">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Supplement &amp; Sourcing Advisory" data-price="119">
@@ -287,7 +286,7 @@
           <li>Budget-optimized plan</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
+      <button class="card-cta" onclick="openStaxCheckout('Supplement &amp; Sourcing Advisory', 119)">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Endocrine &amp; Hormonal Wellness Advisory" data-price="199">
@@ -303,7 +302,7 @@
           <li>30-day advisor check-in</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
+      <button class="card-cta" onclick="openStaxCheckout('Endocrine &amp; Hormonal Wellness Advisory', 199)">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Metabolic Strategy Advisory" data-price="169">
@@ -319,7 +318,7 @@
           <li>2-week advisor check-ins</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
+      <button class="card-cta" onclick="openStaxCheckout('Metabolic Strategy Advisory', 169)">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Integrated Lifestyle &amp; Nutrition Advisory" data-price="249">
@@ -335,7 +334,7 @@
           <li>3 follow-up advisor check-ins</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openCheckoutModal(this.closest('.service-card'))">Book This Service →</button>
+      <button class="card-cta" onclick="openStaxCheckout('Integrated Lifestyle &amp; Nutrition Advisory', 249)">Book This Service →</button>
     </div>
 
   </div>
@@ -371,92 +370,8 @@
   </div>
 </section>
 
-<!-- CHECKOUT MODAL -->
-<div class="modal-overlay" id="checkout-modal" onclick="handleOverlayClick(event)">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
 
-    <h3 id="modal-title">Complete Your Booking</h3>
-    <p class="modal-subtitle">Secure Card Payment · 256-bit SSL encrypted</p>
-
-    <div class="modal-service-badge">
-      <div class="modal-service-name" id="modal-service-name">Advisory Service</div>
-      <div class="modal-service-price" id="modal-service-price">$0 <span>/ engagement</span></div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div>
-        <label class="sq-field-label">First Name</label>
-        <input id="billing-first" type="text" placeholder="First name" required style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box;">
-      </div>
-      <div>
-        <label class="sq-field-label">Last Name</label>
-        <input id="billing-last" type="text" placeholder="Last name" required style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box;">
-      </div>
-    </div>
-    <div style="margin-bottom:10px;">
-      <label class="sq-field-label">Email Address</label>
-      <input id="billing-email" type="email" placeholder="your@email.com" required style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box;">
-    </div>
-    <div style="margin-bottom:10px;">
-      <label class="sq-field-label">Billing Address</label>
-      <input id="billing-address" type="text" placeholder="Street address" required style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box;margin-bottom:6px;">
-      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;">
-        <input id="billing-city" type="text" placeholder="City" required style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
-        <input id="billing-state" type="text" placeholder="State" maxlength="2" required style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
-        <input id="billing-zip" type="text" placeholder="ZIP" maxlength="10" required style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
-      </div>
-    </div>
-
-    <!-- Shipping Address (same as billing by default) -->
-    <div style="margin-bottom:10px;">
-      <label class="sq-field-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-        <input type="checkbox" id="same-as-billing" checked onchange="toggleShipping()" style="width:16px;height:16px;accent-color:#00c2a8;">
-        Shipping address same as billing
-      </label>
-    </div>
-    <div id="shipping-fields" style="display:none;margin-bottom:10px;">
-      <label class="sq-field-label">Shipping Address</label>
-      <input id="shipping-address" type="text" placeholder="Street address" style="width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;box-sizing:border-box;margin-bottom:6px;">
-      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;">
-        <input id="shipping-city" type="text" placeholder="City" style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
-        <input id="shipping-state" type="text" placeholder="State" maxlength="2" style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
-        <input id="shipping-zip" type="text" placeholder="ZIP" maxlength="10" style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:#fff;font-size:14px;">
-      </div>
-    </div>
-
-    <label class="sq-field-label">Card Details</label>
-    <div id="fattjs-number" style="height:40px;width:100%;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;box-sizing:border-box;margin-bottom:6px;"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-      <div id="fattjs-month-year" style="height:40px;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;"></div>
-      <div id="fattjs-cvv" style="height:40px;padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;"></div>
-    </div>
-
-    <div id="modal-error"></div>
-
-    <button class="modal-pay-btn" id="modal-pay-btn" onclick="handlePayment()">
-      <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-      <span id="modal-pay-label">Pay $0.00</span>
-    </button>
-
-    <div class="modal-secure">
-      <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-      256-bit SSL encrypted · Secured by Stax
-    </div>
-    <p class="modal-terms">
-      By completing your engagement you agree to our
-      <a href="privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:none;">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Service</a> and
-      <a href="cancellation.html">Cancellation Policy</a>.
-      Sessions may be rescheduled up to 24 hours prior.
-    </p>
-  </div>
-</div>
-
-<!-- PROCESSING OVERLAY -->
-<div class="processing-overlay" id="processing-overlay">
-  <div class="spinner"></div>
-  <div class="processing-text" id="processing-text">Processing your payment securely…</div>
-</div>
+<div id="pay_now" style="display:none;"></div>
 
 <!-- FOOTER -->
 <footer>
@@ -503,184 +418,27 @@
 </footer>
 
 <script>
-const API_BASE = 'https://purifiedpay-api-production.up.railway.app';
-const STAX_WEBPAYMENTS_TOKEN = 'Purified-Pay-LLC-46b25d06dcf2';
+function openStaxCheckout(service, price) {
+  // Remove existing Stax script to allow re-injection with new amount
+  const existing = document.getElementById('stax_checkout_script');
+  if (existing) existing.remove();
 
-let currentService = null;
-let currentPrice = null;
-let fattJs = null;
-let fattJsReady = false;
+  // Clear the container
+  const payDiv = document.getElementById('pay_now');
+  if (payDiv) payDiv.innerHTML = '';
 
-function toggleShipping() {
-  const cb = document.getElementById('same-as-billing');
-  document.getElementById('shipping-fields').style.display = cb.checked ? 'none' : 'block';
-}
-
-function initFattJs() {
-  if (typeof FattJs === 'undefined') return;
-  fattJs = new FattJs(STAX_WEBPAYMENTS_TOKEN, {
-    number: {
-      id: 'fattjs-number',
-      placeholder: 'Card Number',
-      style: 'height:40px;width:100%;font-size:15px;color:#e2eaf0;background:transparent;border:none;outline:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;'
-    },
-    month: {
-      id: 'fattjs-month-year',
-      placeholder: 'MM / YY',
-      style: 'height:40px;width:100%;font-size:15px;color:#e2eaf0;background:transparent;border:none;outline:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;'
-    },
-    cvv: {
-      id: 'fattjs-cvv',
-      placeholder: 'CVV',
-      style: 'height:40px;width:100%;font-size:15px;color:#e2eaf0;background:transparent;border:none;outline:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;'
-    }
-  });
-
-  fattJs.on('card_form_complete', function(msg) { fattJsReady = true; });
-  fattJs.on('card_form_uncomplete', function(msg) { fattJsReady = false; });
-  fattJs.on('payment_change', function(payment) { console.log('payment change', payment); });
-
-  fattJs.showCardForm().then(function() {
-    console.log('FattJS card form ready');
-  }).catch(function(err) {
-    console.error('FattJS form error:', err);
-  });
-}
-
-window.addEventListener('load', function() {
-  if (typeof FattJs !== 'undefined') {
-    initFattJs();
-  } else {
-    setTimeout(initFattJs, 800);
-  }
-});
-
-async function openCheckoutModal(card) {
-  currentService = card.dataset.service;
-  currentPrice = parseInt(card.dataset.price, 10);
-
-  document.getElementById('modal-service-name').textContent = currentService;
-  document.getElementById('modal-service-price').innerHTML = `$${currentPrice} <span>/ engagement</span>`;
-  document.getElementById('modal-pay-label').textContent = `Pay $${currentPrice}.00`;
-  document.getElementById('modal-error').style.display = 'none';
-  document.getElementById('modal-error').textContent = '';
-  document.getElementById('modal-pay-btn').disabled = false;
-
-  document.getElementById('checkout-modal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-
-  if (!fattJs) initFattJs();
-}
-
-function closeModal() {
-  document.getElementById('checkout-modal').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('checkout-modal')) closeModal();
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeModal();
-});
-
-async function handlePayment() {
-  const btn = document.getElementById('modal-pay-btn');
-
-  const first    = document.getElementById('billing-first').value.trim();
-  const last     = document.getElementById('billing-last').value.trim();
-  const email    = document.getElementById('billing-email').value.trim();
-  const address  = document.getElementById('billing-address').value.trim();
-  const city     = document.getElementById('billing-city').value.trim();
-  const state    = document.getElementById('billing-state').value.trim();
-  const zip      = document.getElementById('billing-zip').value.trim();
-
-  if (!first || !last || !email || !address || !city || !state || !zip) {
-    showModalError('Please fill in all billing fields.');
-    return;
-  }
-
-  if (!fattJs) {
-    showModalError('Payment form not ready. Please refresh the page.');
-    return;
-  }
-
-  btn.disabled = true;
-  hideModalError();
-  document.getElementById('processing-text').textContent = 'Processing your payment securely…';
-  document.getElementById('processing-overlay').classList.add('active');
-
-  try {
-    // Tokenize card via FattJS
-    const tokenResult = await fattJs.tokenize({
-      month: '',   // FattJS reads from its own fields
-      year: '',
-      firstname: first,
-      lastname: last,
-      address_1: address,
-      address_city: city,
-      address_state: state,
-      address_zip: zip,
-      address_country: 'US',
-      method: 'card',
-      validate: false
-    });
-
-    if (!tokenResult || tokenResult.error) {
-      throw new Error((tokenResult && tokenResult.error) || 'Card tokenization failed.');
-    }
-
-    const payment_method_id = tokenResult.id;
-
-    // Charge via backend
-    const resp = await fetch(API_BASE + '/charge-stax', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        payment_method_id,
-        amount: currentPrice.toFixed(2),
-        email,
-        first_name: first,
-        last_name: last,
-        address1: address,
-        city,
-        state,
-        zip,
-        service: currentService
-      })
-    });
-
-    const data = await resp.json();
-
-    if (data.success) {
-      document.getElementById('processing-text').textContent = 'Payment successful!';
-      setTimeout(() => {
-        document.getElementById('processing-overlay').classList.remove('active');
-        closeModal();
-        alert('Payment successful! Transaction ID: ' + data.transaction_id + '\n\nYou will receive a confirmation email shortly.');
-      }, 1500);
-    } else {
-      throw new Error(data.error || 'Payment declined.');
-    }
-
-  } catch (err) {
-    document.getElementById('processing-overlay').classList.remove('active');
-    btn.disabled = false;
-    showModalError(err.message || 'An error occurred. Please try again.');
-  }
-}
-
-function showModalError(msg) {
-  const el = document.getElementById('modal-error');
-  el.textContent = '⚠ ' + msg;
-  el.style.display = 'block';
-}
-
-function hideModalError() {
-  const el = document.getElementById('modal-error');
-  el.style.display = 'none';
-  el.textContent = '';
+  // Inject Stax Lightbox script — data-openOnLoad opens it immediately
+  const script = document.createElement('script');
+  script.id = 'stax_checkout_script';
+  script.src = 'https://checkout.staxpayments.com/v1/checkout.min.js';
+  script.setAttribute('data-webpaymentstoken', 'Purified-Pay-LLC-46b25d06dcf2');
+  script.setAttribute('data-button', '#pay_now');
+  script.setAttribute('data-amount', price);
+  script.setAttribute('data-billingInclude', 'true');
+  script.setAttribute('data-billingRequired', 'true');
+  script.setAttribute('data-displayConfirmation', 'true');
+  script.setAttribute('data-openOnLoad', 'true');
+  document.body.appendChild(script);
 }
 </script>
 
