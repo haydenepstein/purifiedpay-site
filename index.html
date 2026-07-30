@@ -113,63 +113,6 @@
   .card-cta { margin-top: 20px; width: 100%; background: rgba(0,180,216,0.1); color: var(--teal); border: 1px solid rgba(0,180,216,0.3); border-radius: 8px; padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .card-cta:hover { background: var(--teal); color: var(--navy); }
 
-  /* MODAL */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.92);
-    z-index: 500; align-items: center; justify-content: center; padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--navy2); border: 1px solid var(--border); border-radius: 20px;
-    padding: 36px 32px; width: 100%; max-width: 480px; position: relative;
-    max-height: 90vh; overflow-y: auto;
-  }
-  .modal-close {
-    position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border); color: var(--gray); width: 32px; height: 32px;
-    border-radius: 50%; cursor: pointer; font-size: 18px; display: flex;
-    align-items: center; justify-content: center; transition: all 0.2s;
-  }
-  .modal-close:hover { background: rgba(248,113,113,0.15); color: #f87171; border-color: #f87171; }
-  .modal-service-badge {
-    background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.25);
-    border-radius: 10px; padding: 14px 16px; margin-bottom: 24px;
-  }
-  .modal-service-name { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .modal-service-price { font-size: 24px; font-weight: 800; color: var(--teal); }
-  .modal-service-price span { font-size: 14px; color: var(--gray); font-weight: 400; }
-  .modal h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-  .modal-subtitle { font-size: 14px; color: var(--gray); margin-bottom: 24px; }
-  .modal-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-
-  .sq-field-label { font-size: 13px; font-weight: 600; color: var(--gray); margin-bottom: 8px; display: block; }
-  #sq-card-container {
-    background: var(--navy); border: 1px solid var(--border); border-radius: 8px;
-    padding: 12px 14px; min-height: 54px; transition: border-color 0.2s; margin-bottom: 8px;
-  }
-  #sq-card-container.focused { border-color: var(--teal); }
-
-  #modal-error { color: #f87171; font-size: 13px; min-height: 20px; margin-bottom: 8px; display: none; }
-
-  .modal-pay-btn {
-    width: 100%; background: var(--teal); color: var(--navy); border: none; border-radius: 10px;
-    padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px;
-  }
-  .modal-pay-btn:hover:not(:disabled) { background: #0096b4; transform: translateY(-1px); }
-  .modal-pay-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
-  .modal-secure { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: 12px; color: var(--gray); }
-  .modal-terms { font-size: 12px; color: var(--gray); margin-top: 14px; line-height: 1.6; text-align: center; }
-  .modal-terms a { color: var(--teal); text-decoration: none; }
-  .modal-terms a:hover { text-decoration: underline; }
-
-  /* PROCESSING OVERLAY */
-  .processing-overlay { display: none; position: fixed; inset: 0; background: rgba(13,27,42,0.92); z-index: 600; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
-  .processing-overlay.active { display: flex; }
-  .spinner { width: 52px; height: 52px; border: 4px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .processing-text { font-size: 18px; font-weight: 600; color: var(--text); }
-
   /* HOW IT WORKS */
   #how-it-works { max-width: 900px; margin: 0 auto 80px; padding: 0 24px; }
 
@@ -254,7 +197,7 @@
           <li>Written follow-up report</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openStaxCheckout('Micronutrient Strategy Advisory', 149)">Book This Service →</button>
+      <button class="card-cta" onclick="window.open('https://paymnt.io/hejyld', '_blank')">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Performance Optimization Advisory" data-price="129">
@@ -270,7 +213,7 @@
           <li>Progress tracking template</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openStaxCheckout('Performance Optimization Advisory', 129)">Book This Service →</button>
+      <button class="card-cta" onclick="window.open('https://paymnt.io/azeyt2', '_blank')">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Supplement &amp; Sourcing Advisory" data-price="119">
@@ -286,7 +229,7 @@
           <li>Budget-optimized plan</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openStaxCheckout('Supplement &amp; Sourcing Advisory', 119)">Book This Service →</button>
+      <button class="card-cta" onclick="window.open('https://paymnt.io/ikfny7', '_blank')">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Endocrine &amp; Hormonal Wellness Advisory" data-price="199">
@@ -302,7 +245,7 @@
           <li>30-day advisor check-in</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openStaxCheckout('Endocrine &amp; Hormonal Wellness Advisory', 199)">Book This Service →</button>
+      <button class="card-cta" onclick="window.open('https://paymnt.io/mgtw22', '_blank')">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Metabolic Strategy Advisory" data-price="169">
@@ -318,7 +261,7 @@
           <li>2-week advisor check-ins</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openStaxCheckout('Metabolic Strategy Advisory', 169)">Book This Service →</button>
+      <button class="card-cta" onclick="window.open('https://paymnt.io/528mty', '_blank')">Book This Service →</button>
     </div>
 
     <div class="service-card" data-service="Integrated Lifestyle &amp; Nutrition Advisory" data-price="249">
@@ -334,7 +277,7 @@
           <li>3 follow-up advisor check-ins</li>
         </ul>
       </div>
-      <button class="card-cta" onclick="openStaxCheckout('Integrated Lifestyle &amp; Nutrition Advisory', 249)">Book This Service →</button>
+      <button class="card-cta" onclick="window.open('https://paymnt.io/x8bcof', '_blank')">Book This Service →</button>
     </div>
 
   </div>
@@ -371,16 +314,36 @@
 </section>
 
 
-<div id="pay_now" style="position:absolute;left:-9999px;top:0;"></div>
 
 <!-- FOOTER -->
 <footer>
-  <a href="/" class="logo" style="display:inline-block;margin-bottom:16px;">Purified<span>Pay</span></a>
+  <a href="/" class="logo" style="display:inline-block;margin-bottom:20px;">Purified<span>Pay</span></a>
+
+  <!-- Business Contact Info (required for payment processor compliance) -->
+  <div style="background:rgba(0,180,216,0.07);border:1px solid rgba(0,180,216,0.2);border-radius:12px;max-width:480px;margin:0 auto 24px;padding:20px 24px;text-align:left;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:2px;color:var(--teal);text-transform:uppercase;margin-bottom:12px;">Business Contact</div>
+    <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:10px;">Purified Pay LLC</div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray);">
+        <svg width="16" height="16" style="flex-shrink:0;margin-top:1px;color:var(--teal);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>1309 Coffeen Ave STE 1200, Sheridan, WY 82801</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--gray);">
+        <svg width="16" height="16" style="flex-shrink:0;color:var(--teal);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <a href="mailto:info@purifiedpay.com" style="color:var(--teal);text-decoration:none;">info@purifiedpay.com</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--gray);">
+        <svg width="16" height="16" style="flex-shrink:0;color:var(--teal);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        <a href="tel:+18584013903" style="color:var(--teal);text-decoration:none;">(858) 401-3903</a>
+      </div>
+    </div>
+  </div>
+
   <div class="footer-links">
     <a href="privacy.html" style="color:rgba(255,255,255,0.6);text-decoration:none;">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Service</a>
     <a href="cancellation.html">Cancellation Policy</a>
     <a href="contact.html">Contact Us</a>
-    
+
         <!-- Payment Card Logos -->
         <div style="text-align:center; padding: 16px 0 8px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 16px;">
           <span style="color: rgba(255,255,255,0.5); font-size:11px; letter-spacing:1px; text-transform:uppercase; display:block; margin-bottom:10px;">Accepted Cards</span>
@@ -412,46 +375,10 @@
             </svg>
           </div>
         </div>
-        <a href="mailto:info@purifiedpay.com">info@purifiedpay.com</a>
   </div>
   <div class="footer-copy">© 2026 <strong>PurifiedPay LLC</strong> · Professional Advisory Services · 1309 Coffeen Ave STE 1200, Sheridan, WY 82801</div>
 </footer>
 
-<script>
-function openStaxCheckout(service, price) {
-  // Remove existing Stax script + injected button to reset
-  const existing = document.getElementById('stax_checkout_script');
-  if (existing) existing.remove();
-  // Clear any previously injected Stax button
-  const payDiv = document.getElementById('pay_now');
-  if (payDiv) payDiv.innerHTML = '';
-
-  // Inject fresh Stax Lightbox script with the selected price
-  const script = document.createElement('script');
-  script.id = 'stax_checkout_script';
-  script.src = 'https://checkout.staxpayments.com/v1/checkout.min.js';
-  script.setAttribute('data-webpaymentstoken', 'Purified-Pay-LLC-46b25d06dcf2');
-  script.setAttribute('data-button', '#pay_now');
-  script.setAttribute('data-amount', price);
-  script.setAttribute('data-billingInclude', 'true');
-  script.setAttribute('data-billingRequired', 'true');
-  script.setAttribute('data-displayConfirmation', 'true');
-  // Poll for Stax to inject its button, then click it to open the lightbox
-  script.onload = function() {
-    let attempts = 0;
-    const poll = setInterval(function() {
-      const btn = payDiv ? payDiv.querySelector('button, a, [role="button"]') : null;
-      if (btn) {
-        clearInterval(poll);
-        btn.click();
-      } else if (++attempts > 20) {
-        clearInterval(poll);
-      }
-    }, 100);
-  };
-  document.body.appendChild(script);
-}
-</script>
 
 </body>
 </html>
